@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends BaseModel
@@ -28,5 +29,10 @@ class Category extends BaseModel
     public function articles(): BelongsToMany
     {
         return $this->belongsToMany(Article::class, 'article_categories', 'category_id', 'article_id');
+    }
+
+    public function subCategory()
+    {
+        return $this->hasMany(SubCategory::class, 'category_id', 'id');
     }
 }

@@ -54,8 +54,7 @@ class WebsiteController extends Controller
 
         $this->articleRepository = $articleRepository;
         $tags = $this->articleRepository->getAllTags();
-        $categories = Category::select('name', 'slug')->where('is_published', 0)->orderBy('position', 'asc')->pluck('name', 'slug');
-
+        $categories = Category::with('SubCategory')->get();
         $featuredArticles = $this->articleRepository->publishedArticles(1, 3);
         $footerPages = \Cache::remember('footer_pages', config('cache.default_ttl'), function () {
             return PageLink::where('key', 'footer_pages')->with('page:id,title,slug')->get()->toArray();

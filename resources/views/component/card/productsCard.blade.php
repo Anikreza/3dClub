@@ -6,7 +6,7 @@
         <img src="{{asset($image)}}" class="img-fluid" alt="Image" style="min-width: 250px;max-width: 250px; min-height: 250px; max-height: 250px;">
         <div class="mask-icon">
             <ul>
-                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                <li><a href="{{route('productDetails', ['slug' =>$slug])}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
             </ul>
             @include('component.card.addToCart',['model'=>$id])
         </div>
