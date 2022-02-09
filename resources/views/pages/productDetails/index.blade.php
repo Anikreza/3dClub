@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="productbox">
-                    <img src="{{asset($product->image)}}" alt="" style="width: 100%; box-shadow: 3px 3px 3px 3px #707070; border-radius: 75px">
+                    <img src="{{asset($product->image)}}" alt="">
                     <div class="clearfix">
                     </div>
                     <br/>
@@ -44,6 +44,11 @@
                         <li><b class="propertyname">Live Demo:</b><a target="_blank" href="http://www.wowthemes.net/">http://www.wowthemes.net/</a></li>
                     </ul>
                 </div>
+                <ul class="social text-center" style="margin-top: 40px; margin-right: 10px">
+                    @foreach($shareLinks as $key=>$link)
+                        <li><a style="color: #5da9a1; font-size: 25px" href="{{$link}}" target="_blank" class="pin fab fa-{{$key}}"></a></li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </div>

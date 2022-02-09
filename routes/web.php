@@ -26,15 +26,13 @@ Route::get('model/{slug}', [WebsiteController::class, 'articleDetails'])->name('
 Route::get('/category/{slug}', [WebsiteController::class, 'categoryDetails'])->name('category');
 Route::get('/search', [WebsiteController::class, 'searchArticle'])->name('search');
 Route::get('/shop', [WebsiteController::class, 'shop'])->name('shop');
+Route::get('/about', [WebsiteController::class, 'about'])->name('about');
 Route::get('/columnist', [WebsiteController::class, 'getColumnistPage'])->name('columnist');
 Route::get('tag/{slug}', [WebsiteController::class, 'tagDetails'])->name('tag');
 Route::post('/addToCart', [WebsiteController::class, 'addToCart'])->name('addToCart');
 Route::get('/cartItems', [WebsiteController::class, 'showCart'])->name('cartItems');
 Route::get('/deleteCart', [WebsiteController::class, 'deleteCart'])->name('removeCart');
 
-Route::get('/about', function () {
-    return view('pages.about.index');
-});
 
 //Route::get('/cartItems', function () {
 //    return view('pages.cart.index');

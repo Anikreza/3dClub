@@ -1,23 +1,20 @@
-<div class="productbox">
-    <div class="fadeshop">
-        <div class="captionshop text-center" style="display: none;">
-            <h3>{{$title}}</h3>
-            <p>
-                {{$excerpt}}
-            </p>
-            <p>
-               @include('component.card.addToCart',['model'=>$id])
-                <a href="{{ route('productDetails', ['slug' => $slug]) }}" class="learn-more detailslearn"><i class="fa fa-link"></i> Details</a>
-            </p>
+<div class="products-single fix">
+    <div class="box-img-hover">
+        <div class="type-lb">
+{{--            <p class="sale">Sale</p>--}}
         </div>
-        <span class="maxproduct"><img src="{{asset($image)}}" alt="" style="width: 100%; box-shadow: 3px 3px 3px 3px #707070; border-radius: 5px"></span>
+        <img src="{{asset($image)}}" class="img-fluid" alt="Image" style="min-width: 250px;max-width: 250px; min-height: 250px; max-height: 250px;">
+        <div class="mask-icon">
+            <ul>
+                <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+            </ul>
+            @include('component.card.addToCart',['model'=>$id])
+        </div>
     </div>
-    <div class="product-details">
-        <a href="#">
-            <h1>{{$title}}</h1>
-        </a>
-        <span class="price">
-					<span class="edd_price">${{$price}}</span>
-					</span>
+    <div class="why-text">
+        <h4>{{$title}}</h4>
+        <h5> ${{$price}}</h5>
     </div>
 </div>
+
+
