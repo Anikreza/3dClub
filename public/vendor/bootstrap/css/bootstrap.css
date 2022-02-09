@@ -2945,6 +2945,7 @@ input[type="button"].btn-block {
 
 .collapse:not(.show) {
   display: none;
+
 }
 
 .collapsing {
@@ -3868,7 +3869,8 @@ input[type="button"].btn-block {
 }
 
 .nav {
-  display: -ms-flexbox;
+
+    display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -3982,6 +3984,7 @@ input[type="button"].btn-block {
   align-items: center;
   -ms-flex-pack: justify;
   justify-content: space-between;
+
 }
 
 .navbar-brand {
@@ -3999,6 +4002,7 @@ input[type="button"].btn-block {
 }
 
 .navbar-nav {
+
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;

@@ -22,11 +22,28 @@ use Illuminate\Support\Facades\Route;
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::get('/send-notification', [NotificationController::class, 'sendNotification'])->name('send.notification');
 Route::get('/', [WebsiteController::class, 'index'])->name('home');
-Route::get('/articles/{slug}', [WebsiteController::class, 'articleDetails'])->name('article-details');
+Route::get('model/{slug}', [WebsiteController::class, 'articleDetails'])->name('productDetails');
 Route::get('/category/{slug}', [WebsiteController::class, 'categoryDetails'])->name('category');
 Route::get('/search', [WebsiteController::class, 'searchArticle'])->name('search');
+Route::get('/shop', [WebsiteController::class, 'shop'])->name('shop');
 Route::get('/columnist', [WebsiteController::class, 'getColumnistPage'])->name('columnist');
 Route::get('tag/{slug}', [WebsiteController::class, 'tagDetails'])->name('tag');
+Route::post('/addToCart', [WebsiteController::class, 'addToCart'])->name('addToCart');
+Route::get('/cartItems', [WebsiteController::class, 'showCart'])->name('cartItems');
+Route::get('/deleteCart', [WebsiteController::class, 'deleteCart'])->name('removeCart');
+
+Route::get('/about', function () {
+    return view('pages.about.index');
+});
+
+//Route::get('/cartItems', function () {
+//    return view('pages.cart.index');
+//})->name('cartItems');
+
+Route::get('/contact', function () {
+    return view('pages.contact.index');
+});
+
 
 /**
  * ADMIN ROUTES

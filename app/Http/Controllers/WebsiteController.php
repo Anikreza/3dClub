@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 ;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\PageLink;
@@ -11,7 +12,9 @@ use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Share;
 use Str;
@@ -51,28 +54,46 @@ class WebsiteController extends Controller
 
         $this->articleRepository = $articleRepository;
         $tags = $this->articleRepository->getAllTags();
-//        $tagTitles=[];
-//        foreach ($tags as $tag)
-//            array_push($tagTitles,$tag->title);
         $categories = Category::select('name', 'slug')->where('is_published', 0)->orderBy('position', 'asc')->pluck('name', 'slug');
+
         $featuredArticles = $this->articleRepository->publishedArticles(1, 3);
         $footerPages = \Cache::remember('footer_pages', config('cache.default_ttl'), function () {
             return PageLink::where('key', 'footer_pages')->with('page:id,title,slug')->get()->toArray();
         });
+        $products = Article::all();
+        $cart = Cart::content();
+
+        view()->share('cart', $cart);
+        view()->share('products', $products);
         view()->share('footerPages', $footerPages);
         view()->share('categories', $categories);
         view()->share('tags', $tags);
         view()->share('featuredPosts', $featuredArticles);
     }
 
+    public function shop()
+    {
+        $allArticles = $this->articleRepository->paginateAllProducts(5);
+        $title = request()->has('page') ? 'Shop' . " (Page " . request('page') . ')' : 'Shop';
+        $app = $this->homePageSeoData['app_name'];
+        $this->baseSeoData['title'] = "{$title} | {$app}";
+        $this->baseSeoData['description'] = "Buy 3d models from 3dClub";
+        $this->seo($this->baseSeoData);
+        return view('pages.products.index',
+            compact(
+                'allArticles',
+            )
+        );
+    }
+
     public function index()
     {
 
         $this->articleRepository->SetVisitor();
-        $publishedArticles = $this->articleRepository->publishedArticles(1, 4);
+        $publishedArticles = $this->articleRepository->publishedArticles(1, 3);
         $featuredArticles = $this->articleRepository->publishedFeaturedArticles(1, 3);
         $mostReadArticles = $this->articleRepository->mostReadArticles(1, 3);
-
+//        dd($publishedArticles);
         $this->seo($this->baseSeoData);
 
         return view('pages.home.index',
@@ -84,41 +105,66 @@ class WebsiteController extends Controller
         );
     }
 
+    public function addToCart(Request $request)
+    {
+        $product = Article::findOrFail($request->input('product_id'));
+        $cart = Cart::add($product->id, $product->title, 1, $product->price, 0, ['image' => $product->image]);
+//        return Redirect::route('cartItems')->with('message','Successfully Added');
+        return redirect()->back();
+    }
+
+    public function showCart()
+    {
+        $products = Article::all();
+        $cart = Cart::content();;
+        $count=$cart->count();
+        $subtotal = Cart::subtotal();
+//        dd($cart);
+        return view('pages.cart.index', compact('products', 'cart', 'subtotal','count'));
+    }
+
+    public function deleteCart()
+    {
+        $cart = Cart::destroy();
+//       dd($cart);
+        return redirect()->back();
+    }
+
     public function articleDetails($slug)
     {
-        $article = $this->articleRepository->getArticle($slug, true);
-        if (!$article) {
+        $product = $this->articleRepository->getArticle($slug, true);
+        if (!$product) {
             return $this->renderPage($slug);
         }
-        $category = $article['categories'][0];
+        $category = $product['categories'][0];
         $similarArticles = $this->articleRepository->getSimilarArticles($category['id'], 2);
-        $tags = $article->keywords;
-        $tagTitles=[];
+        $tags = $product->keywords;
+        $tagTitles = [];
         foreach ($tags as $tag)
-            array_push($tagTitles,$tag->title);
+            array_push($tagTitles, $tag->title);
         $segments = [
             [
-                'name' => $article['categories'][0]['name'],
+                'name' => $product['categories'][0]['name'],
                 'url' => route('category', [
                     'slug' => $category['slug']
                 ])
             ],
-            ['name' => $article['title'], 'url' => url($slug)]
+            ['name' => $product['title'], 'url' => url($slug)]
         ];
         $cacheKey = request()->ip() . $slug;
-        \Cache::remember($cacheKey, 60, function () use ($article) {
-            $article->viewed = $article->viewed + 1;
-            $article->save();
+        \Cache::remember($cacheKey, 60, function () use ($product) {
+            $product->viewed = $product->viewed + 1;
+            $product->save();
             return true;
         });
 
         $appName = env('APP_NAME');
-        $this->baseSeoData['title'] = " $article->title - $appName";
+        $this->baseSeoData['title'] = " $product->title - $appName";
         $this->baseSeoData['keywords'] = $tagTitles;
         $this->seo($this->baseSeoData);
-        $shareLinks = $this->getSeoLinksForDetailsPage($article);
+        $shareLinks = $this->getSeoLinksForDetailsPage($product);
 
-        return view('pages.articleDetail.index', compact('article', 'shareLinks','similarArticles', 'category', 'segments'));
+        return view('pages.productDetails.index', compact('product', 'shareLinks', 'similarArticles', 'category', 'segments'));
     }
 
     public function categoryDetails($slug)
@@ -130,8 +176,8 @@ class WebsiteController extends Controller
                 'url' => route('category', ['slug' => $category->slug])
             ],
         ];
-        $categoryArticles = $this->articleRepository->paginateByCategoryWithFilter(5, $category->id);
 
+        $categoryArticles = $this->articleRepository->paginateByCategoryWithFilter(5, $category->id);
         $name = empty($category->meta_title) ? $category->name : $category->meta_title;
         $title = request()->has('page') ? $name . " (Page " . request('page') . ')' : $name;
         $this->baseSeoData['title'] = "{$title} | {$category->name} | {$category->keywords}";
@@ -160,7 +206,7 @@ class WebsiteController extends Controller
 
         // SEO META INFO
         if ($tag->title == 'XYZs column') {
-            $this->baseSeoData['title'] = "Demo blogsite Travel blog | {$this->baseSeoData['app_name']}";
+            $this->baseSeoData['title'] = "3dClub | {$this->baseSeoData['app_name']}";
             $this->baseSeoData['description'] = "here, you will find blogs describing cultures, ethnicity and politics around the world";
         } else {
             $this->baseSeoData['title'] = "{$tag->title} | {$this->baseSeoData['app_name']}";
@@ -188,6 +234,7 @@ class WebsiteController extends Controller
 
         return view('pages.search.index', compact('segments', 'searchTerm', 'searchedArticles'));
     }
+
     public function renderPage($slug)
     {
         $page = Page::where('slug', $slug)->with('keywords')->first();
@@ -303,11 +350,11 @@ class WebsiteController extends Controller
 
         if ($data['image']) {
 
-         JsonLd::setImage($data['image']); // add image url
+            JsonLd::setImage($data['image']); // add image url
         } else {
             JsonLd::setImage($this->homePageSeoData['home_page_image_url']); // add image url
         }
-        JsonLd::setSite('@DemoBlog'); // site of twitter card tag
+        JsonLd::setSite('@3dClub'); // site of twitter card tag
         JsonLd::setUrl(url()->current()); // url of twitter card tag
     }
 }

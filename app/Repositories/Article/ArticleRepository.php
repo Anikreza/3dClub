@@ -172,6 +172,14 @@ class ArticleRepository implements ArticleInterface
             ->paginate($perPage);
     }
 
+    public function paginateAllProducts(int $perPage)
+    {
+        return $this->model
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description','price','excerpt')
+            ->latest()
+            ->paginate($perPage);
+    }
+
     public function getArticleCount()
     {
         return Article::where('created_at', '>', Carbon::now()->subDays(1))
@@ -252,8 +260,8 @@ class ArticleRepository implements ArticleInterface
 
     public function publishedArticles(int $categoryId, int $limit)
     {
-        return $this->baseQuery($categoryId)
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
+        return $this->model
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description','excerpt','price')
             ->with('categories')
             ->latest()
             ->limit($limit)
@@ -279,12 +287,11 @@ class ArticleRepository implements ArticleInterface
             ->get();
     }
 
-    public function getArticle($condition, $isSlug = false)
+    public function getArticle($condition, $isSlug = true)
     {
         return $this->model->with(['categories' => function ($q) use ($condition, $isSlug) {
             $q->with(['articles' => function ($sq) use ($condition, $isSlug) {
-                $sq->select('article_id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description')
-                    ->with('favorites')
+                $sq->select('article_id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description','price')
                     ->where('published', '=', true)
                     ->when($isSlug, function ($s) use ($condition, $isSlug) {
                         $s->where('slug', '!=', $condition);
@@ -296,7 +303,7 @@ class ArticleRepository implements ArticleInterface
                     ->limit(4);
             }]);
         }])
-            ->with(['keywords', 'favorites'])
+            ->with('keywords')
             ->where('published', true)
             ->when($isSlug, function ($q) use ($condition) {
                 $q->where('slug', $condition);
