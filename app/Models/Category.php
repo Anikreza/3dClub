@@ -16,9 +16,6 @@ class Category extends BaseModel
         'excerpt',
         'keywords',
         'is_published',
-        'is_video',
-        'display_in_navigation',
-        'display_in_home_page',
         'position',
         'categories',
     ];
@@ -33,6 +30,6 @@ class Category extends BaseModel
 
     public function subCategory()
     {
-        return $this->hasMany(SubCategory::class, 'category_id', 'id');
+        return $this->hasMany(SubCategory::class, 'whichCategory_id', 'id');
     }
 }

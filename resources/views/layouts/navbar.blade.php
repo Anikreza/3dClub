@@ -21,7 +21,7 @@
                         <a class="nav-link" href="{{route('about')}}">About</a>
                     </li>
                     <li {!! (Request::url() == url('/contact')) ? ' class="nav-item active"' : 'nav-item' !!}>
-                        <a class="nav-link" href="/contact">Contact</a>
+                        <a class="nav-link" href="{{route('contact')}}">Contact</a>
                     </li>
                 </ul>
             </div>

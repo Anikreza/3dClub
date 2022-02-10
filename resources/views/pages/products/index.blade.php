@@ -105,10 +105,11 @@
                                         @include('component.card.categoryOptions',
                                                 [
                                                     'key'=>$key,
-                                                    'title' => $category['name'],
-                                                    'slug' => $category['slug'],
+                                                    'category'=>$category,
                                                     'subCategory'=>$category->subCategory,
-                                                    'subCategoryCount'=>$category->subCategory->count()
+                                                    'title' => $category['name'],
+                                                    'article' => $category->articles,
+                                                    'parentCategory'=>$category->category,
                                                 ])
                                     @endforeach
                                 </div>

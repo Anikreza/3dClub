@@ -1,6 +1,10 @@
+<br/>
+<br/>
+<br/>
+<br/>
+
 <div class="post-thumb">
     <a href="{{ route('productDetails', ['slug' => $slug]) }}">
-        <img src="{{asset($image)}}" alt="" style="width: 100%; box-shadow: 3px 3px 3px 3px #000000; border-radius: 5px">
     </a>
 </div>
 <div class="post-entry d-sm-flex d-block align-items-start">
@@ -10,7 +14,6 @@
     <div class="post-content" style=" text-align: justify">
         <div class="post-author d-flex align-items-center">
             <div class="author-thumb">
-                <img src="{{asset($image)}}" alt="">
             </div>
             <div class="author-name">
                 <p>Mark Anthony</p>
@@ -23,7 +26,6 @@
         </div>
         <h3><a href="{{ route('productDetails', ['slug' => $slug]) }}">{{$title}}</a></h3>
         <div class="content" style="max-height: 152px; overflow: hidden;">
-                        {!! $description !!}
         </div>
         <a href="{{ route('productDetails', ['slug' => $slug]) }}" class="btn-primary btn-arrow">Read More</a>
     </div>

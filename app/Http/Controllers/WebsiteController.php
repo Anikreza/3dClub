@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\PageLink;
+use App\Models\SubCategory;
 use App\Repositories\Article\ArticleRepository;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
@@ -54,7 +55,8 @@ class WebsiteController extends Controller
 
         $this->articleRepository = $articleRepository;
         $tags = $this->articleRepository->getAllTags();
-        $categories = Category::with('SubCategory')->get();
+        $categories = Category::with('subCategory', 'articles')->get();
+//        dd($categories[0]);
         $featuredArticles = $this->articleRepository->publishedArticles(1, 3);
         $footerPages = \Cache::remember('footer_pages', config('cache.default_ttl'), function () {
             return PageLink::where('key', 'footer_pages')->with('page:id,title,slug')->get()->toArray();
@@ -90,6 +92,12 @@ class WebsiteController extends Controller
         return view('pages.about.index');
     }
 
+    public function contact()
+    {
+        return view('pages.contact.index');
+
+    }
+
     public function index()
     {
 
@@ -121,10 +129,10 @@ class WebsiteController extends Controller
     {
         $products = Article::all();
         $cart = Cart::content();;
-        $count=$cart->count();
+        $count = $cart->count();
         $subtotal = Cart::subtotal();
 //        dd($cart);
-        return view('pages.cart.index', compact('products', 'cart', 'subtotal','count'));
+        return view('pages.cart.index', compact('products', 'cart', 'subtotal', 'count'));
     }
 
     public function deleteCart()
@@ -173,7 +181,7 @@ class WebsiteController extends Controller
 
     public function categoryDetails($slug)
     {
-        $category = Category::where('slug', $slug)->first();
+        $category = SubCategory::where('slug', $slug)->first();
         $segments = [
             [
                 'name' => "{$category->name}",

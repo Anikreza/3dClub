@@ -24,6 +24,13 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
+                            <VTextFieldWithValidation v-model="form.city"
+                                                      rules="required"
+                                                      ref="city"
+                                                      field="city" :label="'Enter The City Name'"/>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
                             <VSelectSearchWithValidation v-model="form.categories"
                                                          :options="categories"
                                                          rules="required"
@@ -183,7 +190,7 @@ export default {
                 categories: '',
                 excerpt: '',
                 meta_title: '',
-                read_time: 3,
+                city:'',
                 published: 1,
                 featured: 0,
                 description: '',
@@ -210,9 +217,7 @@ export default {
         async get() {
             this.loading = true;
             articleApi.get(this.articleKey).then(res => {
-                res.data.data.read_time = parseInt(res.data.data.read_time)
                 res.data.data.image = null;
-
 
                 if (res.data.data.categories.length) {
                     res.data.data.categories = res.data.data.categories[0].id; // for now multi category selection is not possible

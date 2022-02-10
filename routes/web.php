@@ -27,6 +27,7 @@ Route::get('/category/{slug}', [WebsiteController::class, 'categoryDetails'])->n
 Route::get('/search', [WebsiteController::class, 'searchArticle'])->name('search');
 Route::get('/shop', [WebsiteController::class, 'shop'])->name('shop');
 Route::get('/about', [WebsiteController::class, 'about'])->name('about');
+Route::get('/contact', [WebsiteController::class, 'contact'])->name('contact');
 Route::get('/columnist', [WebsiteController::class, 'getColumnistPage'])->name('columnist');
 Route::get('tag/{slug}', [WebsiteController::class, 'tagDetails'])->name('tag');
 Route::post('/addToCart', [WebsiteController::class, 'addToCart'])->name('addToCart');
@@ -37,10 +38,6 @@ Route::get('/deleteCart', [WebsiteController::class, 'deleteCart'])->name('remov
 //Route::get('/cartItems', function () {
 //    return view('pages.cart.index');
 //})->name('cartItems');
-
-Route::get('/contact', function () {
-    return view('pages.contact.index');
-});
 
 
 /**

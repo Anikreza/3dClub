@@ -131,7 +131,7 @@ class ArticleController extends ApiController
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $id): JsonResponse
+    public function destroy(Request $request, string $id): JsonResponse
     {
         $this->articleRepository->delete($id);
         \Artisan::call('cache:clear');

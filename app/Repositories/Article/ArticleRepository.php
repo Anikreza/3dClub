@@ -5,6 +5,7 @@ namespace App\Repositories\Article;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Keyword;
+use App\Models\SubCategory;
 use App\Models\Visitor;
 use Cache;
 use Illuminate\Support\Carbon;
@@ -55,6 +56,12 @@ class ArticleRepository implements ArticleInterface
         ]);
         // Category
         $article->categories()->sync([$request->input('categories')]);
+
+        $subCategory = SubCategory::create([
+            'whichCategory_id' => $request->input('categories'),
+            'name' => $request->input('city'),
+            'slug' => $this->slugify($request->input('city')),
+        ]);
 
         // Keywords
         $newKeywords = explode(',', $request->input('keywords'));
@@ -123,14 +130,14 @@ class ArticleRepository implements ArticleInterface
         return ['article' => $article, 'previouslyPublished' => $isPublishedBefore];
     }
 
-    public function delete(int $id)
+    public function delete(string $id)
     {
-        $article = Article::findOrFail($id);
-        if (File::exists($article->image)) {
-            File::delete($article->image);
-        }
-        $article->categories()->detach();
-        $article->keywords()->detach();
+        $article = Article::where('slug','=',$id);
+
+//        $article->categories()->detach();
+//        $article->keywords()->detach();
+
+        SubCategory::where('slug','=',$id)->delete();
 
         return $article->delete();
     }
@@ -175,7 +182,7 @@ class ArticleRepository implements ArticleInterface
     public function paginateAllProducts(int $perPage)
     {
         return $this->model
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description','price','excerpt')
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description', 'price', 'excerpt')
             ->latest()
             ->paginate($perPage);
     }
@@ -192,7 +199,8 @@ class ArticleRepository implements ArticleInterface
         return Article::all()->count();
     }
 
-    public function SetVisitor()   {
+    public function SetVisitor()
+    {
         $ip = request()->ip();
         $visited_date = Carbon::now();
         $visitor = Visitor::firstOrCreate(['ip' => $ip], ['visit_date' => $visited_date]);
@@ -261,7 +269,7 @@ class ArticleRepository implements ArticleInterface
     public function publishedArticles(int $categoryId, int $limit)
     {
         return $this->model
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description','excerpt','price')
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description', 'excerpt', 'price')
             ->with('categories')
             ->latest()
             ->limit($limit)
@@ -291,7 +299,7 @@ class ArticleRepository implements ArticleInterface
     {
         return $this->model->with(['categories' => function ($q) use ($condition, $isSlug) {
             $q->with(['articles' => function ($sq) use ($condition, $isSlug) {
-                $sq->select('article_id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description','price')
+                $sq->select('article_id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description', 'price')
                     ->where('published', '=', true)
                     ->when($isSlug, function ($s) use ($condition, $isSlug) {
                         $s->where('slug', '!=', $condition);
