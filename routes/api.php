@@ -58,6 +58,7 @@ Route::group([
     Route::get("fetch-all-published-pages", [PageController::class, 'get']);
     Route::get("pages/{slug}/edit", [PageController::class, 'edit']);
     Route::post("pages/{id}", [PageController::class, 'update']);
+    Route::post("sendNewsLetter", [PageController::class, 'sendLetter']);
     Route::apiResource("pages", PageController::class);
 
     Route::get("settings", [SettingsController::class, 'get']);

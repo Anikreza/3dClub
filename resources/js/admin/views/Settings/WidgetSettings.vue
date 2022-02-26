@@ -1,9 +1,9 @@
 <template>
     <v-container>
         <v-layout justify-center wrap>
-            <v-flex md12>
-                <v-row>
-                    <v-col v-for="(widget, index) in widgets" :key="index" cols="6" md="6" sm="12">
+            <v-flex >
+                <v-row style="margin-left: 20%; margin-top: 8%">
+                    <v-col v-for="(widget, index) in widgets" :key="index" cols="8" md="8" >
                         <material-card
                             :color="$store.state.app.color"
                             :title="widget.title"
@@ -11,7 +11,7 @@
 
                             <v-container>
                                 <v-row>
-                                    <v-col cols="12" md="6">
+                                    <v-col cols="8" md="8">
                                         <VSelectSearchWithValidation v-model="page"
                                                                      :options="widget.availableData"
                                                                      @change="selectPage($event, widget.widgetName)"
@@ -132,13 +132,6 @@ export default {
                     data: this.footerSelectedPageId,
                     'widgetName': 'footer_pages'
                 },
-                {
-                    title: 'Mobile App Sidebar Navigation Pages',
-                    availableData: this.availableAppNavPages,
-                    selectedPages: this.appNavigationPages,
-                    data: this.mobileAppSelectedPageId,
-                    'widgetName': 'app_navigation_pages'
-                }
             ];
         }
     },

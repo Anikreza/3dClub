@@ -2,8 +2,8 @@
     <v-container fill-height fluid grid-list-xl>
         <v-layout justify-center wrap>
             <v-flex md12>
-                <ArticleForm title="Create Article"
-                             short-description="Selecting published will display the article in website"
+                <ArticleForm title="Add Model"
+                             short-description="Selecting published will display the Model in website"
                 />
             </v-flex>
         </v-layout>

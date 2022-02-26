@@ -14,6 +14,7 @@ class SubCategory extends Model
     protected $fillable     =   [
         'whichCategory_id',
         'name',
+        'model',
         'slug'
     ];
 

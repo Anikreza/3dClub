@@ -31,6 +31,13 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
+                            <VTextFieldWithValidation v-model="form.price"
+                                                      rules="required"
+                                                      ref="price"
+                                                      field="price" :label="'Price'"/>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
                             <VSelectSearchWithValidation v-model="form.categories"
                                                          :options="categories"
                                                          rules="required"
@@ -196,6 +203,7 @@ export default {
                 description: '',
                 keywords: '',
                 image: '',
+                price:''
             }
         }
     },

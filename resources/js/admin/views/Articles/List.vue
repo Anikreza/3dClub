@@ -44,7 +44,6 @@
                                                           :label="'Type...'"/>
                             </v-col>
                         </v-row>
-
                         <v-simple-table>
                             <template v-slot:default v-if="articles">
                                 <thead >

@@ -19,6 +19,9 @@ return [
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
+    'stripe' => [
+        'secret' => 'sk_test_51JH8hgKuYEIBE7kKSnAHFQlua6le49SmqIbVH7UeEfk4OHrbMgPlHJtvdTi2yA9ovvGOTx6Qxsv3bkCvVtRamH2900JJTCFU0c',
+    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),

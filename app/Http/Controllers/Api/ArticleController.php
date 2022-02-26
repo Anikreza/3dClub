@@ -28,6 +28,7 @@ class ArticleController extends ApiController
     {
 
         $allArticles= $this->successResponse($this->articleRepository->paginate(10), true);
+        $mostRead= $this->successResponse($this->articleRepository->mostReadArticles(1, 5));
         $count= $this->successResponse($this->articleRepository->getArticleCount(), true);
         $hitsPerUser= $this->successResponse($this->articleRepository->getUniqueVisitorCount(), true);
         $hits= $this->successResponse($this->articleRepository->getTotalVisitCount(), true);
@@ -39,6 +40,7 @@ class ArticleController extends ApiController
 
         $response = [
             'all' => $allArticles,
+            'mostRead' => $mostRead,
             'countInLastDay'=>$count,
             'allArticleCount'=>$AllCount,
             'allTimeUniqueVisitors'=>$hitsPerUser,

@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.80.0.
+ * Generated for Laravel 8.83.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2349,6 +2349,17 @@
         public static function render($string, $data = [], $deleteCachedView = false)
         {
                         return \Illuminate\View\Compilers\BladeCompiler::render($string, $data, $deleteCachedView);
+        }
+                    /**
+         * Render a component instance to HTML.
+         *
+         * @param \Illuminate\View\Component $component
+         * @return string 
+         * @static 
+         */ 
+        public static function renderComponent($component)
+        {
+                        return \Illuminate\View\Compilers\BladeCompiler::renderComponent($component);
         }
                     /**
          * Strip the parentheses from the given expression.
@@ -7730,6 +7741,10 @@
             /**
      * 
      *
+     * @method static void alwaysFrom(string $address, string|null $name = null)
+     * @method static void alwaysReplyTo(string $address, string|null $name = null)
+     * @method static void alwaysReturnPath(string $address)
+     * @method static void alwaysTo(string $address, string|null $name = null)
      * @method static mixed laterOn(string $queue, \DateTimeInterface|\DateInterval|int $delay, \Illuminate\Contracts\Mail\Mailable|string|array $view)
      * @method static mixed queueOn(string $queue, \Illuminate\Contracts\Mail\Mailable|string|array $view)
      * @method static void plain(string $view, array $data, $callback)
@@ -11595,6 +11610,7 @@
      * 
      *
      * @method static \Illuminate\Routing\RouteRegistrar as(string $value)
+     * @method static \Illuminate\Routing\RouteRegistrar controller(string $controller)
      * @method static \Illuminate\Routing\RouteRegistrar domain(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar middleware(array|string|null $middleware)
      * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
@@ -17087,11 +17103,11 @@
                     /**
          * 
          *
-         * @param $url
-         * @param null $title
+         * @param string $url
+         * @param string|null $title
          * @param array $options
-         * @param null $prefix
-         * @param null $suffix
+         * @param string|null $prefix
+         * @param string|null $suffix
          * @return \Jorenvh\Share\Share 
          * @static 
          */ 
@@ -17103,10 +17119,10 @@
                     /**
          * 
          *
-         * @param null $title
+         * @param string|null $title
          * @param array $options
-         * @param null $prefix
-         * @param null $suffix
+         * @param string|null $prefix
+         * @param string|null $suffix
          * @return \Jorenvh\Share\Share 
          * @static 
          */ 
@@ -18393,6 +18409,209 @@
         public static function flushMacros()
         {
                         \Gloudemans\Shoppingcart\Cart::flushMacros();
+        }
+         
+    }
+     
+}
+
+    namespace Cartalyst\Stripe\Laravel\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class Stripe {
+                    /**
+         * Create a new Stripe API instance.
+         *
+         * @param string $apiKey
+         * @param string $apiVersion
+         * @return \Cartalyst\Stripe\Stripe 
+         * @static 
+         */ 
+        public static function make($apiKey = null, $apiVersion = null)
+        {
+                        return \Cartalyst\Stripe\Stripe::make($apiKey, $apiVersion);
+        }
+                    /**
+         * Returns the current package version.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getVersion()
+        {
+                        return \Cartalyst\Stripe\Stripe::getVersion();
+        }
+                    /**
+         * Returns the Config repository instance.
+         *
+         * @return \Cartalyst\Stripe\ConfigInterface 
+         * @static 
+         */ 
+        public static function getConfig()
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->getConfig();
+        }
+                    /**
+         * Sets the Config repository instance.
+         *
+         * @param \Cartalyst\Stripe\ConfigInterface $config
+         * @return \Cartalyst\Stripe\Stripe 
+         * @static 
+         */ 
+        public static function setConfig($config)
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->setConfig($config);
+        }
+                    /**
+         * Returns the Stripe API key.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getApiKey()
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->getApiKey();
+        }
+                    /**
+         * Sets the Stripe API key.
+         *
+         * @param string $apiKey
+         * @return \Cartalyst\Stripe\Stripe 
+         * @static 
+         */ 
+        public static function setApiKey($apiKey)
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->setApiKey($apiKey);
+        }
+                    /**
+         * Returns the Stripe API version.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getApiVersion()
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->getApiVersion();
+        }
+                    /**
+         * Sets the Stripe API version.
+         *
+         * @param string $apiVersion
+         * @return \Cartalyst\Stripe\Stripe 
+         * @static 
+         */ 
+        public static function setApiVersion($apiVersion)
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->setApiVersion($apiVersion);
+        }
+                    /**
+         * Sets the idempotency key.
+         *
+         * @param string|null $idempotencyKey
+         * @return \Cartalyst\Stripe\Stripe 
+         * @static 
+         */ 
+        public static function idempotent($idempotencyKey)
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->idempotent($idempotencyKey);
+        }
+                    /**
+         * Sets the account id.
+         *
+         * @param string|null $accountId
+         * @return \Cartalyst\Stripe\Stripe 
+         * @static 
+         */ 
+        public static function accountId($accountId)
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->accountId($accountId);
+        }
+                    /**
+         * Returns the application's information.
+         *
+         * @return array|null 
+         * @static 
+         */ 
+        public static function getAppInfo()
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->getAppInfo();
+        }
+                    /**
+         * Sets the application's information.
+         *
+         * @param string $appName
+         * @param string $appVersion
+         * @param string $appUrl
+         * @param string $appPartnerId
+         * @return \Cartalyst\Stripe\Stripe 
+         * @static 
+         */ 
+        public static function setAppInfo($appName, $appVersion = null, $appUrl = null, $appPartnerId = null)
+        {
+                        /** @var \Cartalyst\Stripe\Stripe $instance */
+                        return $instance->setAppInfo($appName, $appVersion, $appUrl, $appPartnerId);
+        }
+                    /**
+         * Returns the amount converter class and method name.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getAmountConverter()
+        {
+                        return \Cartalyst\Stripe\Stripe::getAmountConverter();
+        }
+                    /**
+         * Sets the amount converter class and method name.
+         *
+         * @param $amountConverter string
+         * @return void 
+         * @static 
+         */ 
+        public static function setAmountConverter($amountConverter)
+        {
+                        \Cartalyst\Stripe\Stripe::setAmountConverter($amountConverter);
+        }
+                    /**
+         * Disables the amount converter.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function disableAmountConverter()
+        {
+                        \Cartalyst\Stripe\Stripe::disableAmountConverter();
+        }
+                    /**
+         * Returns the default amount converter.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getDefaultAmountConverter()
+        {
+                        return \Cartalyst\Stripe\Stripe::getDefaultAmountConverter();
+        }
+                    /**
+         * Sets the default amount converter;
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function setDefaultAmountConverter()
+        {
+                        \Cartalyst\Stripe\Stripe::setDefaultAmountConverter();
         }
          
     }
@@ -20210,7 +20429,7 @@ namespace  {
                 /**
              * Query lazily, by chunking the results of a query by comparing IDs.
              *
-             * @param int $count
+             * @param int $chunkSize
              * @param string|null $column
              * @param string|null $alias
              * @return \Illuminate\Support\LazyCollection 
@@ -20226,7 +20445,7 @@ namespace  {
                 /**
              * Query lazily, by chunking the results of a query by comparing IDs in descending order.
              *
-             * @param int $count
+             * @param int $chunkSize
              * @param string|null $column
              * @param string|null $alias
              * @return \Illuminate\Support\LazyCollection 
@@ -22350,6 +22569,7 @@ namespace  {
             class Setting extends \anlutro\LaravelSettings\Facade {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Cart extends \Gloudemans\Shoppingcart\Facades\Cart {}
+            class Stripe extends \Cartalyst\Stripe\Laravel\Facades\Stripe {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
             class Image extends \Intervention\Image\Facades\Image {}
      

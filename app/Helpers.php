@@ -42,7 +42,7 @@ function saveTextEditorImage($detail)
         list($type, $data) = explode(';', $data);
         list(, $data) = explode(',', $data);
         $data = base64_decode($data);
-        $image_name = time() . $k . '.png';
+        $image_name = $k . '.png';
         $path = public_path("/") . '/uploads/' . $image_name;
         file_put_contents($path, $data);
         $img->removeattribute('src');

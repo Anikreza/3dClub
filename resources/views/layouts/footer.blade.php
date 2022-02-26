@@ -6,18 +6,19 @@
                 <div class="wgs">
                     <div class="wgs-content">
                         <div class="wgs-logo">
-                            <a class="navbar-brand" href="{{ route('home') }}"><h2>3d <em>Club</em></h2></a>
+                            <a class="navbar-brand" href="{{ route('home') }}"><img
+                                    src="{{asset('assets/images/logo-white.png')}}"></a>
                         </div>
-                        <p>&copy; 2019. All rights reserved.<br> Designed & Developed by <a href="#">Softnio</a></p>
+                        <p style="color:#868686 ">&copy;2022. All rights reserved</p>
                     </div>
                 </div><!-- .wgs -->
             </div><!-- .col -->
             <div class="col-lg-3 col-sm-6">
                 <div class="wgs">
                     <div class="wgs-content">
-                        <h3 class="wgs-title"> About</h3>
+                        <h4 class="wgs-title"> ABOUT</h4>
                         <ul class="wgs-menu">
-                            <a href="{{ url('columnist') }}" class="footer-links">Columnist</a>
+                            <a style="font-size: 17px;" href="{{ url('columnist') }}" class="footer-links">Columnist</a>
                         </ul>
                     </div>
                 </div><!-- .wgs -->
@@ -25,25 +26,38 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="wgs">
                     <div class="wgs-content">
-                        <h3 class="wgs-title">Services</h3>
-                        <ul class="wgs-menu">
+                        <h3 class="wgs-title">SERVICES</h3>
+                        <ul class="wgs-menu" style="display:flex;flex-direction: column">
                             @foreach($footerPages as $pageLink)
-                                <a href="{{ route('productDetails', ['slug' => $pageLink['page']['slug']]) }}">{{ $pageLink['page']['title'] }}</a>
+                                <a style="font-size: 17px;"
+                                   href="{{ route('productDetails', ['slug' => $pageLink['page']['slug']]) }}">{{ $pageLink['page']['title'] }}</a>
                             @endforeach
                         </ul>
                     </div>
                 </div><!-- .wgs -->
             </div><!-- .col -->
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-md-auto">
                 <div class="wgs">
                     <div class="wgs-content">
-                        <h3 class="wgs-title">Get our staff</h3>
-                        <form class="genox-form" action="form/subscribe.php" method="POST">
+                        <h4 class="wgs-title">NEWSLETTER</h4>
+                        <form class="genox-form" action="{{route('newsLetter')}}" method="POST">
+                            @csrf
                             <div class="form-results"></div>
-                            <div class="field-group btn-inline">
-                                <input name="s_email" type="email" class="input" placeholder="Your  Email">
-                                <input type="text" class="d-none" name="form-anti-honeypot" value="">
-                                <button type="submit"  class="far fa-paper-plane button"></button>
+                            @if (session()->has('success'))
+                                <div class="alert alert-success">
+                                    {{ session()->get('success') }}
+                                </div>
+                            @endif
+                            <div style="display: flex">
+                                <input name="email" type="email"
+                                       style="min-height: 35px; margin-left: 22%; padding-left: 20px"
+                                       placeholder="Your  Email"
+                                       required
+                                >
+                                @error('email')<span class="text-danger">{{$message}}</span>@enderror
+                                <span>
+                                    <button style="min-height: 35px; background-color: #b4b4b4; cursor: pointer" type="submit" class="far fa-paper-plane button"></button>
+                                </span>
                             </div>
                         </form>
                     </div>
@@ -52,11 +66,3 @@
         </div><!-- .row -->
     </div><!-- .container -->
 </footer>
-<!-- .footer -->
-
-<!-- preloader -->
-<div class="preloader preloader-light preloader-dalas no-split"><span class="spinner spinner-alt"><img class="spinner-brand" src="{{ asset('assets/images/logo-white.png') }}" src="images/logo-white.png" alt=""></span></div>
-
-<!-- JavaScript -->
-<script src="{{ asset('assets/js/jquery.bundle.js?ver=141') }}"></script>
-<script src="{{ asset('assets/js/scripts.js?ver=141') }}"></script>

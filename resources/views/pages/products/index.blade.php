@@ -10,7 +10,7 @@
                         <div class="product-item-filter row">
                             <div class="col-12 col-sm-8 text-center text-sm-left">
                                 <div class="toolbar-sorter-right">
-                                    <span> <p>Showing {{$allArticles->count()}} Models Per Page</p></span>
+                                    <span> <p style="font-size: 19px">Showing {{$allArticles->count()}} Models Per Page</p></span>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-4 text-center text-sm-right">
@@ -28,6 +28,7 @@
                         </div>
 
                         <div class="product-categorie-box">
+                            @if($allArticles->count()>0)
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
                                     <div class="row">
@@ -51,7 +52,6 @@
 
 
                                 <div role="tabpanel" class="tab-pane fade" id="list-view">
-
                                     <div class="list-view-box">
 
                                     </div>
@@ -74,6 +74,11 @@
                                     </div>
                                 </div>
                             </div>
+                            @else
+                                <div>
+                                    <h2>Sorry, No Results Mathced Your Search...</h2>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -89,8 +94,8 @@
                 <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
                     <div class="product-categori">
                         <div class="search-product">
-                            <form action="#">
-                                <input class="form-control" placeholder="Search here..." type="text">
+                            <form action="{{route('search')}}">
+                                <input class="form-control" placeholder="Search here..." name="query" type="text">
                                 <button type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>

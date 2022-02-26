@@ -23,6 +23,12 @@
                     <li {!! (Request::url() == url('/contact')) ? ' class="nav-item active"' : 'nav-item' !!}>
                         <a class="nav-link" href="{{route('contact')}}">Contact</a>
                     </li>
+                    <li {!! (Request::url() == url('/cartItems')) ? ' class="nav-item active"' : 'nav-item' !!}>
+                        <a class="nav-link" href="{{route('cartItems')}}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span style="margin-left: 1px;">{{\Gloudemans\Shoppingcart\Facades\Cart::count()}}</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

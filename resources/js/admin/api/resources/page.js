@@ -17,6 +17,10 @@ class PageApi extends HttpClient {
         return this.requestType('post').formBody(payload).request(`pages`)
     }
 
+    sendNewsLetter(payload){
+        return this.requestType('post').formBody(payload).request(`/sendNewsLetter`)
+    }
+
     update(payload) {
         return this.requestType('post').formBody(payload).request(`pages/${payload.id}`)
     }
