@@ -8,15 +8,17 @@
                                 <img src="{{asset('assets/images/logo.png')}}">
                             </a>
                         </div>
-                        <p style="color:#868686 ">&copy;2022. All rights reserved</p>
+                        <p style="color:#546b77 ">&copy;2022. All rights reserved</p>
                     </div>
 
             <div class="col-lg-3 col-sm-12">
                 <div class="wgs">
                     <div class="wgs-content">
-                        <h4 class="wgs-title"> ABOUT</h4>
-                        <ul class="wgs-menu">
-                            <a style="font-size: 17px;" href="{{ url('columnist') }}" class="footer-links">Columnist</a>
+                        <h5 class="wgs-title"> LINKS</h5>
+                        <ul class="wgs-menu" style="display: flex; flex-direction: column; margin-top: -10px">
+                            <a style="font-size: 13px; color:#546b77 " href="{{ route('about') }}" class="footer-links">About Us</a>
+                            <a style="font-size: 13px;color:#546b77 " href="{{ route('shop') }}" class="footer-links">Our Models</a>
+                            <a style="font-size: 13px;color:#546b77 " href="{{ route('contact') }}" class="footer-links">Contact Us</a>
                         </ul>
                     </div>
                 </div><!-- .wgs -->
@@ -24,10 +26,10 @@
             <div  style="display: flex; justify-content: space-evenly; width: 33%">
                 <div class="wgs">
                     <div class="wgs-content">
-                        <h3 class="wgs-title">SERVICES</h3>
+                        <h5 class="wgs-title">OTHERS</h5>
                         <ul class="wgs-menu">
                             @foreach($footerPages as $pageLink)
-                                <a style="font-size: 12px;"
+                                <a style="font-size: 12px;color:#546b77; margin-top: -10px"
                                    href="{{ route('productDetails', ['slug' => $pageLink['page']['slug']]) }}">{{ $pageLink['page']['title'] }}</a>
                             @endforeach
                         </ul>
@@ -37,7 +39,7 @@
             <div class="col-lg-3 col-md-auto">
                 <div class="wgs">
                     <div class="wgs-content">
-                        <h4 class="wgs-title">NEWSLETTER</h4>
+                        <h5 class="wgs-title">NEWSLETTER</h5>
                         <form class="genox-form" action="{{route('newsLetter')}}" method="POST">
                             @csrf
                             <div class="form-results"></div>
@@ -48,13 +50,13 @@
                             @endif
                             <div style="display: flex">
                                 <input name="email" type="email"
-                                       style="min-height: 35px; margin-left: 22%; padding-left: 20px"
+                                       style="min-height: 35px; margin-left: 22%; padding-left: 20px; background-color: inherit;color: #546b77;border:.2px solid #546b77"
                                        placeholder="Your  Email"
                                        required
                                 >
                                 @error('email')<span class="text-danger">{{$message}}</span>@enderror
                                 <span>
-                                    <button style="min-height: 35px; background-color: #b4b4b4; cursor: pointer" type="submit" class="far fa-paper-plane button"></button>
+                                    <button style="min-height: 35px;border-style: none; background-color: #546b77; cursor: pointer" type="submit" class="far fa-paper-plane button"></button>
                                 </span>
                             </div>
                         </form>
