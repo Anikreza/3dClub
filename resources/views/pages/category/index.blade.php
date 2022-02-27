@@ -10,12 +10,16 @@
                     <div class="post post-full ">
                         <div class="col-md-10">
                             <div class="post post-full post-details ">
-                                @include('component.card.searchCard',
+                                @include('component.card.productsCard',
                                     [
                                         'image' => $article->image,
+                                        'id' => $article->id,
+                                        'stock' => $article->stock,
                                         'title' => $article->title,
                                         'slug' => $article->slug,
+                                        'excerpt' => $article->excerpt,
                                         'description' => $article->description,
+                                        'price' => $article->price,
                                         'category' => $category->name,
                                     ])
                             </div>

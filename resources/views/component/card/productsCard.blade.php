@@ -1,9 +1,16 @@
 <div class="products-single fix">
+    <br/>
+    <br/>
+    <br/>
+    @if( Request::path() !== 'products')
+        @include('component.breadcrumb')
+    @else
+    @endif
     <div class="box-img-hover">
         <div class="type-lb">
 {{--            <p class="sale">Sale</p>--}}
         </div>
-        <img src="{{asset($image)}}" class="img-fluid" alt="Image" style="min-width: 250px;max-width: 250px; min-height: 250px; max-height: 250px;">
+        <img src="{{asset($image)}}" class="img-fluid" alt="Image">
         <div class="mask-icon">
             <ul>
                 <li><a href="{{route('productDetails', ['slug' =>$slug])}}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
@@ -15,6 +22,7 @@
         <h4>{{$title}}</h4>
         <h5> ${{$price}}</h5>
     </div>
+
 </div>
 
 

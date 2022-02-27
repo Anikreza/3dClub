@@ -1,28 +1,26 @@
 <div class="best-features">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <div class="section-heading">
-                    <h2>About Sixteen Clothing</h2>
+            <div class="col-md-12" >
+                <div class="section-heading" style="text-align: left">
+                    <h2>About 3d CLUB</h2>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="left-content">
+                <div class="left-content"  style=" text-align: left">
                     <h4>Looking for the best products?</h4>
-                    <p><a rel="nofollow" href="https://templatemo.com/tm-546-sixteen-clothing" target="_parent">This template</a> is free to use for your business websites. However, you have no permission to redistribute the downloadable ZIP file on any template collection website. <a rel="nofollow" href="https://templatemo.com/contact">Contact us</a> for more info.</p>
-                    <ul class="featured-list">
-                        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
-                        <li><a href="#">Consectetur an adipisicing elit</a></li>
-                        <li><a href="#">It aquecorporis nulla aspernatur</a></li>
-                        <li><a href="#">Corporis, omnis doloremque</a></li>
-                        <li><a href="#">Non cum id reprehenderit</a></li>
-                    </ul>
-                    <a href="about.html" class="filled-button">Read More</a>
+                    <p>
+                        3D Club is an architect and visualizer who specializes in providing 3D architectural rendering services to clients worldwide. With over 7 years of professional experience in the architectural visualization industry.
+                        Features of 3D Club differ from 3D floor plan, 3D product rendering, 3D architectural rendering and 3D walkthrough animation and 3D landmark modeling, 3D city modeling. He specializes in creating photorealistic 3D views according to the detailed drawings of your AutoCAD.
+                        3D Club prides itself on its exclusive expertise in 3D architectural software such as 3DS Max, Autodesk Revit, Blender, SketchUp, AutoCAD, Photoshop, Illustrator.
+
+                    </p>
+                    <a href="{{route('about')}}" class="filled-button">Know About Our Services</a>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="right-image">
-                    <img src="assets/images/feature-image.jpg" alt="">
+                    <img src={{asset('assets/images/workEnv.jpg')}}>
                 </div>
             </div>
         </div>

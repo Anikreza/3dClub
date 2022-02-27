@@ -4,6 +4,7 @@
     @include('pages.products.partial.topSection')
     <div class="shop-box-inner">
         <div class="container">
+            @include('component.breadcrumb')
             <div class="row">
                 <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
                     <div class="right-product-box">
@@ -33,7 +34,7 @@
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
                                     <div class="row">
                                         @foreach($allArticles as $products)
-                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                            <div class="col-sm-12 col-md-12">
                                                 @include('component.card.productsCard',
                                                                 [
                                                                     'image' => $products['image'],

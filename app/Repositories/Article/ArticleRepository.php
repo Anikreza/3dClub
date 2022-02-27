@@ -176,7 +176,7 @@ class ArticleRepository implements ArticleInterface
     public function paginateByCategoryWithFilter(int $perPage, int $categoryId)
     {
         return $this->baseQuery($categoryId)
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
+            ->select('id', 'title','price', 'slug', 'featured', 'published', 'image', 'viewed', 'description','stock','excerpt')
             ->latest()
             ->paginate($perPage);
     }
@@ -257,7 +257,7 @@ class ArticleRepository implements ArticleInterface
     private function baseQuery(int $categoryId = 1)
     {
         return $this->model->whereHas('categories', function ($q) use ($categoryId) {
-            $q->where('is_published', '=', 0);
+            $q->where('is_published', '=', 1);
             $q->when($categoryId !== 1, function ($sq) use ($categoryId) {
                 $sq->where('category_id', $categoryId);
             });
@@ -274,12 +274,12 @@ class ArticleRepository implements ArticleInterface
             ->get();
     }
 
-    public function publishedFeaturedArticles(int $categoryId, int $limit)
+    public function publishedFeaturedArticles( int $limit)
     {
-        return $this->baseQuery($categoryId)
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
+        return $this->model
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description', 'excerpt', 'price')
             ->where('featured', 1)
-            ->latest()
+            ->orderBy('title')
             ->limit($limit)
             ->get();
     }

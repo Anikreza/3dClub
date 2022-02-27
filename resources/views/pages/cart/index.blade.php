@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="col-12 d-flex shopping-box"><a href="{{ route('order') }}"
-                                                           class="ml-auto btn hvr-hover">Checkout</a></div>
+                                                           class="ml-auto btn hvr-hover">Proceed</a></div>
             </div>
         </div>
     </div>

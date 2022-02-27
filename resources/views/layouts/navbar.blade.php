@@ -14,14 +14,14 @@
                         <a class="nav-link" href="/">Home
                         </a>
                     </li>
-                    <li {!! (Request::url() == url('/shop')) ? ' class="nav-item active"' : 'nav-item' !!}>
-                        <a class="nav-link" href="{{ route('shop') }}">Shop</a>
+                    <li {!! (Request::url() == url('/products')) ? ' class="nav-item active"' : 'nav-item' !!}>
+                        <a class="nav-link" href="{{ route('shop') }}">Our Models</a>
                     </li>
                     <li {!! (Request::url() == url('/about')) ? ' class="nav-item active"' : 'nav-item' !!}>
-                        <a class="nav-link" href="{{route('about')}}">About</a>
+                        <a class="nav-link" href="{{route('about')}}">About Us</a>
                     </li>
                     <li {!! (Request::url() == url('/contact')) ? ' class="nav-item active"' : 'nav-item' !!}>
-                        <a class="nav-link" href="{{route('contact')}}">Contact</a>
+                        <a class="nav-link" href="{{route('contact')}}">Contact Us</a>
                     </li>
                     <li {!! (Request::url() == url('/cartItems')) ? ' class="nav-item active"' : 'nav-item' !!}>
                         <a class="nav-link" href="{{route('cartItems')}}">

@@ -2,18 +2,16 @@
 <footer class="section footer bg-dark-alt tc-light footer-s1">
     <div class="container">
         <div class="row gutter-vr-30px">
-            <div class="col-lg-3 col-sm-6">
-                <div class="wgs">
-                    <div class="wgs-content">
+            <div class="col-lg-2 col-sm-12" style="margin-top: -5%">
                         <div class="wgs-logo">
-                            <a class="navbar-brand" href="{{ route('home') }}"><img
-                                    src="{{asset('assets/images/logo-white.png')}}"></a>
+                            <a href="{{ route('home') }}">
+                                <img src="{{asset('assets/images/logo.png')}}">
+                            </a>
                         </div>
                         <p style="color:#868686 ">&copy;2022. All rights reserved</p>
                     </div>
-                </div><!-- .wgs -->
-            </div><!-- .col -->
-            <div class="col-lg-3 col-sm-6">
+
+            <div class="col-lg-3 col-sm-12">
                 <div class="wgs">
                     <div class="wgs-content">
                         <h4 class="wgs-title"> ABOUT</h4>
@@ -23,13 +21,13 @@
                     </div>
                 </div><!-- .wgs -->
             </div><!-- .col -->
-            <div class="col-lg-3 col-sm-6">
+            <div  style="display: flex; justify-content: space-evenly; width: 33%">
                 <div class="wgs">
                     <div class="wgs-content">
                         <h3 class="wgs-title">SERVICES</h3>
-                        <ul class="wgs-menu" style="display:flex;flex-direction: column">
+                        <ul class="wgs-menu">
                             @foreach($footerPages as $pageLink)
-                                <a style="font-size: 17px;"
+                                <a style="font-size: 12px;"
                                    href="{{ route('productDetails', ['slug' => $pageLink['page']['slug']]) }}">{{ $pageLink['page']['title'] }}</a>
                             @endforeach
                         </ul>

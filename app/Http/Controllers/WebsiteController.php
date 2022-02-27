@@ -66,6 +66,12 @@ class WebsiteController extends Controller
 
     public function shop()
     {
+        $segments = [
+            [
+                'name' => "Our Models",
+            ],
+        ];
+
         $allArticles = $this->articleRepository->paginateAllProducts(5);
         $title = request()->has('page') ? 'Shop' . " (Page " . request('page') . ')' : 'Shop';
         $app = $this->homePageSeoData['app_name'];
@@ -75,17 +81,28 @@ class WebsiteController extends Controller
         return view('pages.products.index',
             compact(
                 'allArticles',
+                'segments'
             )
         );
     }
 
     public function about()
     {
+        $segments = [
+            [
+                'name' => "About Us",
+            ],
+        ];
+
         $title = request()->has('page') ? 'About' . " (Page " . request('page') . ')' : 'About';
         $app = $this->homePageSeoData['app_name'];
         $this->baseSeoData['title'] = "{$title} | {$app}";
         $this->seo($this->baseSeoData);
-        return view('pages.about.index');
+        return view('pages.about.index',
+            compact(
+                'segments'
+            )
+        );
     }
 
     public function contact()
@@ -103,7 +120,7 @@ class WebsiteController extends Controller
 
         $this->articleRepository->SetVisitor();
         $publishedArticles = $this->articleRepository->publishedArticles(1, 3);
-        $featuredArticles = $this->articleRepository->publishedFeaturedArticles(1, 3);
+        $featuredArticles = $this->articleRepository->publishedFeaturedArticles(3);
         $mostReadArticles = $this->articleRepository->mostReadArticles(1, 3);
 //        dd($publishedArticles);
         $this->seo($this->baseSeoData);
@@ -170,6 +187,35 @@ class WebsiteController extends Controller
             'total' => $subtotal
         ]);
         return Redirect::route('contact');
+    }
+
+  public function sendBuyMail(Request $request)
+    {
+        $contents = Cart::content()->map(function ($item) {
+            return $item->model->title;
+        })->values()->toJson();
+        $subtotal = Cart::subtotal();
+
+        $data = [
+            'recipent' => 'alexthegreatmaiden@gmail.com',
+            'firstname' => $request->input('firstName'),
+            'lastname' => $request->input('lastName'),
+            'email' => $request->input('email'),
+            'subject' => "Hey Shagor! I wanted to buy Something from you",
+            'products' => $contents,
+            'total' => $subtotal,
+
+        ];
+//        $data = $request->only('name', 'email', 'subject', 'message');
+//        \Mail::to('anikreza22@gmail.com')->send(new SendContactMail($data));
+
+      \Mail::send('email.buyProductsTemplate',$data, function ($message) use ($data) {
+          $message->to($data['recipent'])
+              ->from($data['email'], $data['lastname'])
+              ->subject($data['subject']);
+      });
+
+        return Redirect::route('home');
     }
 
     public function confirmPayment(Request $request)
@@ -243,7 +289,13 @@ class WebsiteController extends Controller
 
     public function searchArticle(Request $request)
     {
-        $searchTerm = $request->input('query');
+            if($request->input('query')!==''){
+                $searchTerm = $request->input('query');
+            }
+            else{
+                $searchTerm='Models';
+            }
+
         $allArticles = $this->articleRepository->searchArticles($searchTerm, 5);
 
         $segments = [

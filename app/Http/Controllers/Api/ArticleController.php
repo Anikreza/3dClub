@@ -64,7 +64,7 @@ class ArticleController extends ApiController
     {
         $request->validate([
             'title' => 'required|unique:articles,title',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20000'
         ]);
 
         \DB::beginTransaction();
