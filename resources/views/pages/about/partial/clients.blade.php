@@ -18,11 +18,11 @@
                             <img src="{{asset('assets/images/partner1.png')}}" alt="1">
                         </a>
                     </div>
-                    <div >
-                        <a href="https://www.cybercity3d.com/" target="_blank">
-                            <img src="{{asset('assets/images/partner1.png')}}" alt="1">
-                        </a>
-                    </div>
+{{--                    <div >--}}
+{{--                        <a href="https://www.cybercity3d.com/" target="_blank">--}}
+{{--                            <img src="{{asset('assets/images/partner1.png')}}" alt="1">--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
 {{--                    <div class="client-item">--}}
 {{--                        <img src="assets/images/client-01.png" alt="2">--}}
