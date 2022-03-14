@@ -11,7 +11,7 @@
                         <div class="product-item-filter row">
                             <div class="col-12 col-sm-8 text-center text-sm-left">
                                 <div class="toolbar-sorter-right">
-                                    <span> <p style="font-size: 19px">Showing {{$allArticles->count()}} Models Per Page</p></span>
+                                    <span> <p style="font-size: 19px">Showing {{$allArticles->count()}} Models In This Page</p></span>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-4 text-center text-sm-right">

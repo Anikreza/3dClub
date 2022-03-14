@@ -98,7 +98,7 @@
 {{--                            </div>--}}
 {{--                        </div>--}}
                         <div class="col-12 d-flex shopping-box">
-                            <button type="submit" class="ml-auto btn hvr-hover">Send Us A Mail</button>
+                            <a style="color: white" class="ml-auto btn hvr-hover">Send Us A Mail</a>
                         </div>
                     </form>
                 </div>

@@ -24,8 +24,10 @@
   color: #fff;
   ">
 {{--        <img src="{{asset('assets/images/logo.png')}}" width="40%">--}}
-        <h1 style="color: #5da9a1; font-weight: 800">3D Club</h1>
+        <div style="background-color:rgba(182,182,182,0.3); border-radius: 100%">
+        <h1 style="color: #5da9a1; font-weight: 300">3D Club</h1>
         <h2>Committed To Think Different</h2>
+        </div>
     </div>
     {{--            </div>--}}
     {{--        </div>--}}

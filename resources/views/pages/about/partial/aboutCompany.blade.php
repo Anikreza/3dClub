@@ -49,10 +49,9 @@
                 <div class="left-content">
                     <h4>Who we are &amp; What we do?</h4>
                     <p>
-                        3D Club is an architect and visualizer who specializes in providing 3D architectural rendering services to clients worldwide. With over 7 years of professional experience in the architectural visualization industry.
-                        Features of 3D Club differ from 3D floor plan, 3D product rendering, 3D architectural rendering and 3D walkthrough animation and 3D landmark modeling, 3D city modeling. He specializes in creating photorealistic 3D views according to the detailed drawings of your AutoCAD.
-                        3D Club prides itself on its exclusive expertise in 3D architectural software such as 3DS Max, Autodesk Revit, Blender, SketchUp, AutoCAD, Photoshop, Illustrator.
-
+                        3D Club is an architect and visualizer who specializes in providing 3D architectural rendering services to clients worldwide. With over 8 years of professional experience in the architectural visualization industry.
+                        Features of 3D Club differ from 3d city Modeling, 3D landmark modeling, and 3D walkthrough animation. He specializes in creating photorealistic 3D views according to google erath.
+                        3D Club prides itself on its exclusive expertise in 3D architectural software such as 3DS Max, Blender, SketchUp, AutoCAD, Photoshop, Illustrator.
                     </p>
                     <ul class="social-icons">
                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>

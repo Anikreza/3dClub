@@ -396,7 +396,7 @@ class WebsiteController extends Controller
             'email' => $request->input('email')
         ]);
 
-        return back()->with("success", "Thank You, We've Got You");
+        return back()->with("success", "Thanks! We Got You!!");
     }
 
     public function sendNewsLetters(Request $request): \Illuminate\Http\RedirectResponse

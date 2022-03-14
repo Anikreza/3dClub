@@ -63,8 +63,8 @@ ul.social-icons li a:hover {
 
 a.filled-button {
 	background-color: #5da9a1;
-	color: #fff;
-	font-size: 14px;
+	color: whitesmoke;
+	font-size: 17px;
 	text-transform: capitalize;
 	font-weight: 300;
 	padding: 10px 20px;
@@ -786,10 +786,25 @@ footer .inner-content p a {
 .services .service-item .down-content {
 	background-color: #fff;
 	padding: 40px 30px;
-    height: max-content;
     overflow: scroll;
+    width: fit-content;
+    height: 500px;
     scrollbar-width:none;
     -ms-overflow-style: none;
+}
+.down-content h4{
+    margin-top: 30px;
+}
+.down-content img{
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    box-shadow: 0 2px 3px 1px #424849;
+    width: 300px;
+    height: 170px;
+}
+.down-content img:hover .down-content{
+    width: 600px;
+   height: 400px;
 }
 .services .service-item .down-content::-webkit-scrollbar {
     display: none;
