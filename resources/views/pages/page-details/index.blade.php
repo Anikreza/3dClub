@@ -1,6 +1,6 @@
 @extends('master')
 @section('content')
-    <div class="section blog section-x">
+    <div class="section blog section-x" style="margin-top: 100px">
         <div class="container">
             @include('component.breadcrumb')
             <div class="row justify-content-center">
@@ -8,12 +8,9 @@
                     <div class="post post-full post-details">
                         <div class="post-entry d-sm-flex d-block align-items-start">
                             <div class="content-left d-flex d-sm-block">
-{{--                                <div class="post-date">--}}
-{{--                                    <p>Mar <strong>19</strong></p>--}}
-{{--                                </div>--}}
-                                <ul class="social text-center">
+                                <ul class="social text-center" style="margin-top: 40px; margin-right: 10px">
                                     @foreach($shareLinks as $key=>$link)
-                                        <li><a href="{{$link}}" target="_blank" class="pin fab fa-{{$key}}"></a></li>
+                                        <li><a style="color: #5da9a1; font-size: 25px" href="{{$link}}" target="_blank" class="pin fab fa-{{$key}}"></a></li>
                                     @endforeach
                                 </ul>
                             </div>

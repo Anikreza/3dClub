@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
         Jorenvh\Share\Providers\ShareServiceProvider::class,
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
     ],
 
     /*
@@ -235,6 +236,7 @@ return [
         'JsonLdMulti'   => Artesaos\SEOTools\Facades\JsonLdMulti::class,
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
     ],
 
 ];

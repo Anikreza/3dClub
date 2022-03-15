@@ -333,6 +333,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 // Plugins
 
 
@@ -648,9 +650,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         skipNulls: true
       });
       _api_resources_article__WEBPACK_IMPORTED_MODULE_2__.default.list(this.currentPage, query).then(function (res) {
-        console.log('simpletable', res.data.all.original.data.data);
-        _this2.articles = res.data.all.original.data.data;
-        _this2.currentPage = res.data.all.original.data.current_page;
+        console.log('simpletable', res.data.mostRead.original.data);
+        _this2.articles = res.data.mostRead.original.data;
+        _this2.currentPage = res.data.mostRead.original.data.current_page;
         _this2.loading = false;
       })["catch"](function (err) {
         _this2.loading = false;
@@ -5788,7 +5790,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-offset {\r\n  margin: 0 auto;\r\n  max-width: calc(100% - 32px);\r\n  position: relative;\n}\n.v-offset--full-width {\r\n  max-width: 100%;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-offset {\n  margin: 0 auto;\n  max-width: calc(100% - 32px);\n  position: relative;\n}\n.v-offset--full-width {\n  max-width: 100%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7482,242 +7484,18 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { md12: "", sm12: "", lg4: "" } },
-            [
-              _c(
-                "material-chart-card",
-                {
-                  attrs: {
-                    data: _vm.dailySalesChart.data,
-                    options: _vm.dailySalesChart.options,
-                    color: _vm.$store.state.app.color,
-                    type: "Line"
-                  }
-                },
-                [
-                  _c("h4", { staticClass: "title font-weight-light" }, [
-                    _vm._v("Last 7 Days Visit")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    { staticClass: "category d-inline-flex font-weight-light" },
-                    [
-                      _c("v-icon", { attrs: { color: "green", small: "" } }, [
-                        _vm._v(
-                          "\n                        mdi-arrow-up\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "green--text" }, [
-                        _vm._v("55%")
-                      ]),
-                      _vm._v(
-                        " \n                    Visitor increased in last week\n                "
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "template",
-                    { slot: "actions" },
-                    [
-                      _c(
-                        "v-icon",
-                        { staticClass: "mr-2", attrs: { small: "" } },
-                        [
-                          _vm._v(
-                            "\n                        mdi-clock-outline\n                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass:
-                            "caption grey-lighten-1--text font-weight-light"
-                        },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(
-                                _vm.$t("Common.updated_ago", {
-                                  time: "4 " + _vm.$t("Common.minute")
-                                })
-                              ) +
-                              "\n                    "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                2
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { md12: "", sm12: "", lg4: "" } },
-            [
-              _c(
-                "material-chart-card",
-                {
-                  attrs: {
-                    data: _vm.emailsSubscriptionChart.data,
-                    options: _vm.emailsSubscriptionChart.options,
-                    "responsive-options":
-                      _vm.emailsSubscriptionChart.responsiveOptions,
-                    color: _vm.$store.state.app.color,
-                    type: "Bar"
-                  }
-                },
-                [
-                  _c("h4", { staticClass: "title font-weight-light" }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.$t("Pages.Dashboard.email_campaign")) +
-                        "\n                "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    { staticClass: "category d-inline-flex font-weight-light" },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(
-                            _vm.$t("Pages.Dashboard.last_campaign_performance")
-                          ) +
-                          "\n                "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "template",
-                    { slot: "actions" },
-                    [
-                      _c(
-                        "v-icon",
-                        { staticClass: "mr-2", attrs: { small: "" } },
-                        [
-                          _vm._v(
-                            "\n                        mdi-clock-outline\n                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass:
-                            "caption blue-grey--text font-weight-light"
-                        },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(
-                                _vm.$t("Common.updated_ago", {
-                                  time: "10 " + _vm.$t("Common.hour")
-                                })
-                              ) +
-                              "\n                    "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                2
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { md12: "", sm12: "", lg4: "" } },
-            [
-              _c(
-                "material-chart-card",
-                {
-                  attrs: {
-                    data: _vm.dataCompletedTasksChart.data,
-                    options: _vm.dataCompletedTasksChart.options,
-                    color: _vm.$store.state.app.color,
-                    type: "Line"
-                  }
-                },
-                [
-                  _c("h3", { staticClass: "title font-weight-light" }, [
-                    _vm._v("Push Notification")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    { staticClass: "category d-inline-flex font-weight-light" },
-                    [
-                      _vm._v(
-                        "\n                    Sent by every 3 hours\n                "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "template",
-                    { slot: "actions" },
-                    [
-                      _c(
-                        "v-icon",
-                        { staticClass: "mr-2", attrs: { small: "" } },
-                        [
-                          _vm._v(
-                            "\n                        mdi-clock-outline\n                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        { staticClass: "caption grey--text font-weight-light" },
-                        [
-                          _vm._v(
-                            "\n                        Sent 10 minute ago\n                    "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                2
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { sm6: "", xs12: "", md6: "", lg3: "" } },
+            { attrs: { sm12: "", xs12: "", md12: "", lg6: "" } },
             [
               _c("material-stats-card", {
                 attrs: {
                   color: _vm.$store.state.app.color,
                   icon: "mdi-book-multiple",
-                  title: "Total Articles",
+                  title: "Total Models",
                   value: _vm.allArticleCount,
                   "sub-icon": "mdi-calendar",
                   "sub-text":
                     _vm.articleCountInLastDay +
-                    " Articles Added In Last 24 Hours"
+                    " Products Added In Last 24 Hours"
                 }
               })
             ],
@@ -7726,7 +7504,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { sm6: "", xs12: "", md6: "", lg3: "" } },
+            { attrs: { sm12: "", xs12: "", md12: "", lg6: "" } },
             [
               _c("material-stats-card", {
                 attrs: {
@@ -7746,7 +7524,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { sm6: "", xs12: "", md6: "", lg3: "" } },
+            { attrs: { sm12: "", xs12: "", md12: "", lg6: "" } },
             [
               _c("material-stats-card", {
                 attrs: {
@@ -7764,7 +7542,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { sm6: "", xs12: "", md6: "", lg3: "" } },
+            { attrs: { sm12: "", xs12: "", md12: "", lg6: "" } },
             [
               _c("material-stats-card", {
                 attrs: {
@@ -7783,12 +7561,12 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { md12: "", lg6: "" } },
+            { attrs: { md12: "", lg12: "" } },
             [
               _c("SimpleTable", {
                 attrs: {
                   color: _vm.$store.state.app.color,
-                  title: "Most Popular Articles",
+                  title: "Most Popular Models",
                   "sub-title": "Last Updated at " + new Date().toDateString()
                 }
               })
@@ -7796,351 +7574,9 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { md12: "", lg6: "" } },
-            [
-              _c(
-                "material-card",
-                {
-                  staticClass: "card-tabs",
-                  attrs: { color: _vm.$store.state.app.color }
-                },
-                [
-                  _c(
-                    "v-flex",
-                    { attrs: { slot: "header" }, slot: "header" },
-                    [
-                      _c(
-                        "v-tabs",
-                        {
-                          attrs: { "align-with-title": "" },
-                          model: {
-                            value: _vm.tabs,
-                            callback: function($$v) {
-                              _vm.tabs = $$v
-                            },
-                            expression: "tabs"
-                          }
-                        },
-                        [
-                          _c("v-tabs-slider", { attrs: { color: "yellow" } }),
-                          _vm._v(" "),
-                          _c(
-                            "v-tab",
-                            { staticClass: "mr-3" },
-                            [
-                              _c("v-icon", { staticClass: "mr-2" }, [
-                                _vm._v("mdi-bug")
-                              ]),
-                              _vm._v(
-                                "\n                            Bugs\n                        "
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-tab",
-                            { staticClass: "mr-3" },
-                            [
-                              _c("v-icon", { staticClass: "mr-2" }, [
-                                _vm._v("mdi-code-tags")
-                              ]),
-                              _vm._v(
-                                "\n                            Website\n                        "
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-tab",
-                            [
-                              _c("v-icon", { staticClass: "mr-2" }, [
-                                _vm._v("mdi-cloud")
-                              ]),
-                              _vm._v(
-                                "\n                            Server\n                        "
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tabs-items",
-                    {
-                      model: {
-                        value: _vm.tabs,
-                        callback: function($$v) {
-                          _vm.tabs = $$v
-                        },
-                        expression: "tabs"
-                      }
-                    },
-                    _vm._l(3, function(n) {
-                      return _c(
-                        "v-tab-item",
-                        { key: n },
-                        [
-                          _c(
-                            "v-list",
-                            [
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.complete(0)
-                                    }
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c("v-checkbox", {
-                                        attrs: {
-                                          value: _vm.list[0],
-                                          color: "green"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(
-                                          '\n                                        Sign contract for "What are conference organized afraid of?"\n                                    '
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "d-flex" },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "v-btn--simple",
-                                          attrs: { color: "success", icon: "" }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { color: "primary" } },
-                                            [_vm._v("mdi-pencil")]
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "v-btn--simple",
-                                          attrs: { color: "danger", icon: "" }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { color: "error" } },
-                                            [_vm._v("mdi-close")]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("v-divider"),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.complete(1)
-                                    }
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c("v-checkbox", {
-                                        attrs: {
-                                          value: _vm.list[1],
-                                          color: "success"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(
-                                          "\n                                        Lines From Great Russian Literature? Or E-mails From My Boss?\n                                    "
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "d-flex" },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "v-btn--simple",
-                                          attrs: { color: "success", icon: "" }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { color: "primary" } },
-                                            [_vm._v("mdi-pencil")]
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "v-btn--simple",
-                                          attrs: { color: "danger", icon: "" }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { color: "error" } },
-                                            [_vm._v("mdi-close")]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("v-divider"),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.complete(2)
-                                    }
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c("v-checkbox", {
-                                        attrs: {
-                                          value: _vm.list[2],
-                                          color: "success"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(
-                                          "\n                                        Flooded: One year later, assessing what was lost and what was found when a\n                                        ravaging rain swept\n                                        through metro Detroit\n                                    "
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "d-flex" },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "v-btn--simple",
-                                          attrs: { color: "success", icon: "" }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { color: "primary" } },
-                                            [_vm._v("mdi-pencil")]
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "v-btn--simple",
-                                          attrs: { color: "danger", icon: "" }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { color: "error" } },
-                                            [_vm._v("mdi-close")]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    }),
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
+          _c("v-flex", { attrs: { md12: "", lg6: "" } }, [
+            _c("button", [_vm._v(" Publish NewsLetter")])
+          ])
         ],
         1
       )

@@ -5,123 +5,124 @@
         grid-list-xl
     >
         <v-layout wrap>
-            <v-flex
-                md12
-                sm12
-                lg4
-            >
-                <material-chart-card
-                    :data="dailySalesChart.data"
-                    :options="dailySalesChart.options"
-                    :color="$store.state.app.color"
-                    type="Line"
-                >
-                    <h4 class="title font-weight-light">Last 7 Days Visit</h4>
-                    <p class="category d-inline-flex font-weight-light">
-                        <v-icon
-                            color="green"
-                            small
-                        >
-                            mdi-arrow-up
-                        </v-icon>
-                        <span class="green--text">55%</span>&nbsp;
-                        Visitor increased in last week
-                    </p>
+<!--            <v-flex-->
+<!--                md12-->
+<!--                sm12-->
+<!--                lg4-->
+<!--            >-->
+<!--                <material-chart-card-->
+<!--                    :data="dailySalesChart.data"-->
+<!--                    :options="dailySalesChart.options"-->
+<!--                    :color="$store.state.app.color"-->
+<!--                    type="Line"-->
+<!--                >-->
+<!--                    <h4 class="title font-weight-light">Last 7 Days Visit</h4>-->
+<!--                    <p class="category d-inline-flex font-weight-light">-->
+<!--                        <v-icon-->
+<!--                            color="green"-->
+<!--                            small-->
+<!--                        >-->
+<!--                            mdi-arrow-up-->
+<!--                        </v-icon>-->
+<!--                        <span class="green&#45;&#45;text">55%</span>&nbsp;-->
+<!--                        Visitor increased in last week-->
+<!--                    </p>-->
 
-                    <template slot="actions">
-                        <v-icon
-                            class="mr-2"
-                            small
-                        >
-                            mdi-clock-outline
-                        </v-icon>
-                        <span class="caption grey-lighten-1--text font-weight-light">
-                            {{ $t('Common.updated_ago', {time: '4 ' + $t('Common.minute')}) }}
-                        </span>
-                    </template>
-                </material-chart-card>
-            </v-flex>
-            <v-flex
-                md12
-                sm12
-                lg4
-            >
-                <material-chart-card
-                    :data="emailsSubscriptionChart.data"
-                    :options="emailsSubscriptionChart.options"
-                    :responsive-options="emailsSubscriptionChart.responsiveOptions"
-                    :color="$store.state.app.color"
-                    type="Bar"
-                >
-                    <h4 class="title font-weight-light">
-                        {{ $t('Pages.Dashboard.email_campaign') }}
-                    </h4>
-                    <p class="category d-inline-flex font-weight-light">
-                        {{ $t('Pages.Dashboard.last_campaign_performance') }}
-                    </p>
+<!--                    <template slot="actions">-->
+<!--                        <v-icon-->
+<!--                            class="mr-2"-->
+<!--                            small-->
+<!--                        >-->
+<!--                            mdi-clock-outline-->
+<!--                        </v-icon>-->
+<!--                        <span class="caption grey-lighten-1&#45;&#45;text font-weight-light">-->
+<!--                            {{ $t('Common.updated_ago', {time: '4 ' + $t('Common.minute')}) }}-->
+<!--                        </span>-->
+<!--                    </template>-->
+<!--                </material-chart-card>-->
+<!--            </v-flex>-->
+<!--            <v-flex-->
+<!--                md12-->
+<!--                sm12-->
+<!--                lg4-->
+<!--            >-->
+<!--                <material-chart-card-->
+<!--                    :data="emailsSubscriptionChart.data"-->
+<!--                    :options="emailsSubscriptionChart.options"-->
+<!--                    :responsive-options="emailsSubscriptionChart.responsiveOptions"-->
+<!--                    :color="$store.state.app.color"-->
+<!--                    type="Bar"-->
+<!--                >-->
+<!--                    <h4 class="title font-weight-light">-->
+<!--                        {{ $t('Pages.Dashboard.email_campaign') }}-->
+<!--                    </h4>-->
+<!--                    <p class="category d-inline-flex font-weight-light">-->
+<!--                        {{ $t('Pages.Dashboard.last_campaign_performance') }}-->
+<!--                    </p>-->
 
-                    <template slot="actions">
-                        <v-icon
-                            class="mr-2"
-                            small
-                        >
-                            mdi-clock-outline
-                        </v-icon>
-                        <span class="caption blue-grey--text font-weight-light">
-                            {{ $t('Common.updated_ago', {time: '10 ' + $t('Common.hour')}) }}
-                        </span>
-                    </template>
-                </material-chart-card>
-            </v-flex>
-            <v-flex
-                md12
-                sm12
-                lg4
-            >
-                <material-chart-card
-                    :data="dataCompletedTasksChart.data"
-                    :options="dataCompletedTasksChart.options"
-                    :color="$store.state.app.color"
-                    type="Line"
-                >
-                    <h3 class="title font-weight-light">Push Notification</h3>
-                    <p class="category d-inline-flex font-weight-light">
-                        Sent by every 3 hours
-                    </p>
+<!--                    <template slot="actions">-->
+<!--                        <v-icon-->
+<!--                            class="mr-2"-->
+<!--                            small-->
+<!--                        >-->
+<!--                            mdi-clock-outline-->
+<!--                        </v-icon>-->
+<!--                        <span class="caption blue-grey&#45;&#45;text font-weight-light">-->
+<!--                            {{ $t('Common.updated_ago', {time: '10 ' + $t('Common.hour')}) }}-->
+<!--                        </span>-->
+<!--                    </template>-->
+<!--                </material-chart-card>-->
+<!--            </v-flex>-->
+<!--            <v-flex-->
+<!--                md12-->
+<!--                sm12-->
+<!--                lg4-->
+<!--            >-->
+<!--                <material-chart-card-->
+<!--                    :data="dataCompletedTasksChart.data"-->
+<!--                    :options="dataCompletedTasksChart.options"-->
+<!--                    :color="$store.state.app.color"-->
+<!--                    type="Line"-->
+<!--                >-->
+<!--                    <h3 class="title font-weight-light">Push Notification</h3>-->
+<!--                    <p class="category d-inline-flex font-weight-light">-->
+<!--                        Sent by every 3 hours-->
+<!--                    </p>-->
 
-                    <template slot="actions">
-                        <v-icon
-                            class="mr-2"
-                            small
-                        >
-                            mdi-clock-outline
-                        </v-icon>
-                        <span class="caption grey--text font-weight-light">
-                            Sent 10 minute ago
-                        </span>
-                    </template>
-                </material-chart-card>
-            </v-flex>
+<!--                    <template slot="actions">-->
+<!--                        <v-icon-->
+<!--                            class="mr-2"-->
+<!--                            small-->
+<!--                        >-->
+<!--                            mdi-clock-outline-->
+<!--                        </v-icon>-->
+<!--                        <span class="caption grey&#45;&#45;text font-weight-light">-->
+<!--                            Sent 10 minute ago-->
+<!--                        </span>-->
+<!--                    </template>-->
+<!--                </material-chart-card>-->
+<!--            </v-flex>-->
+
             <v-flex
-                sm6
+                sm12
                 xs12
-                md6
-                lg3
+                md12
+                lg6
             >
                 <material-stats-card
                     :color="$store.state.app.color"
                     icon="mdi-book-multiple"
-                    :title="`Total Articles`"
+                    :title="`Total Models`"
                     :value=allArticleCount
                     sub-icon="mdi-calendar"
-                    :sub-text= "articleCountInLastDay+' Articles Added In Last 24 Hours'"
+                    :sub-text= "articleCountInLastDay+' Products Added In Last 24 Hours'"
                 />
             </v-flex>
             <v-flex
-                sm6
+                sm12
                 xs12
-                md6
-                lg3
+                md12
+                lg6
             >
                 <material-stats-card
                     :color="$store.state.app.color"
@@ -134,10 +135,10 @@
                 />
             </v-flex>
             <v-flex
-                sm6
+                sm12
                 xs12
-                md6
-                lg3
+                md12
+                lg6
             >
                 <material-stats-card
                     :color="$store.state.app.color"
@@ -149,10 +150,10 @@
                 />
             </v-flex>
             <v-flex
-                sm6
+                sm12
                 xs12
-                md6
-                lg3
+                md12
+                lg6
             >
                 <material-stats-card
                     :color="$store.state.app.color"
@@ -165,142 +166,143 @@
             </v-flex>
             <v-flex
                 md12
-                lg6
+                lg12
             >
                 <SimpleTable :color="$store.state.app.color"
-                             :title="`Most Popular Articles`"
+                             :title="`Most Popular Models`"
                              :sub-title="`Last Updated at ${new Date().toDateString()}`"/>
             </v-flex>
             <v-flex
                 md12
                 lg6
             >
-                <material-card
-                    class="card-tabs"
-                    :color="$store.state.app.color">
-                    <v-flex slot="header">
-                        <v-tabs v-model="tabs" align-with-title>
-                            <v-tabs-slider color="yellow"></v-tabs-slider>
-                            <v-tab class="mr-3">
-                                <v-icon class="mr-2">mdi-bug</v-icon>
-                                Bugs
-                            </v-tab>
-                            <v-tab class="mr-3">
-                                <v-icon class="mr-2">mdi-code-tags</v-icon>
-                                Website
-                            </v-tab>
-                            <v-tab>
-                                <v-icon class="mr-2">mdi-cloud</v-icon>
-                                Server
-                            </v-tab>
-                        </v-tabs>
-                    </v-flex>
+<!--                <material-card-->
+<!--                    class="card-tabs"-->
+<!--                    :color="$store.state.app.color">-->
+<!--                    <v-flex slot="header">-->
+<!--                        <v-tabs v-model="tabs" align-with-title>-->
+<!--                            <v-tabs-slider color="yellow"></v-tabs-slider>-->
+<!--                            <v-tab class="mr-3">-->
+<!--                                <v-icon class="mr-2">mdi-bug</v-icon>-->
+<!--                                Bugs-->
+<!--                            </v-tab>-->
+<!--                            <v-tab class="mr-3">-->
+<!--                                <v-icon class="mr-2">mdi-code-tags</v-icon>-->
+<!--                                Website-->
+<!--                            </v-tab>-->
+<!--                            <v-tab>-->
+<!--                                <v-icon class="mr-2">mdi-cloud</v-icon>-->
+<!--                                Server-->
+<!--                            </v-tab>-->
+<!--                        </v-tabs>-->
+<!--                    </v-flex>-->
 
-                    <v-tabs-items v-model="tabs">
-                        <v-tab-item
-                            v-for="n in 3"
-                            :key="n"
-                        >
-                            <v-list>
-                                <v-list-item @click="complete(0)">
-                                    <v-list-item-action>
-                                        <v-checkbox
-                                            :value="list[0]"
-                                            color="green"
-                                        />
-                                    </v-list-item-action>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Sign contract for "What are conference organized afraid of?"
-                                        </v-list-item-title>
-                                    </v-list-item-content>
-                                    <div class="d-flex">
-                                        <v-btn
+<!--                    <v-tabs-items v-model="tabs">-->
+<!--                        <v-tab-item-->
+<!--                            v-for="n in 3"-->
+<!--                            :key="n"-->
+<!--                        >-->
+<!--                            <v-list>-->
+<!--                                <v-list-item @click="complete(0)">-->
+<!--                                    <v-list-item-action>-->
+<!--                                        <v-checkbox-->
+<!--                                            :value="list[0]"-->
+<!--                                            color="green"-->
+<!--                                        />-->
+<!--                                    </v-list-item-action>-->
+<!--                                    <v-list-item-content>-->
+<!--                                        <v-list-item-title>-->
+<!--                                            Sign contract for "What are conference organized afraid of?"-->
+<!--                                        </v-list-item-title>-->
+<!--                                    </v-list-item-content>-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <v-btn-->
 
-                                            class="v-btn--simple"
-                                            color="success"
-                                            icon
-                                        >
-                                            <v-icon color="primary">mdi-pencil</v-icon>
-                                        </v-btn>
-                                        <v-btn
-                                            class="v-btn--simple"
-                                            color="danger"
-                                            icon
-                                        >
-                                            <v-icon color="error">mdi-close</v-icon>
-                                        </v-btn>
+<!--                                            class="v-btn&#45;&#45;simple"-->
+<!--                                            color="success"-->
+<!--                                            icon-->
+<!--                                        >-->
+<!--                                            <v-icon color="primary">mdi-pencil</v-icon>-->
+<!--                                        </v-btn>-->
+<!--                                        <v-btn-->
+<!--                                            class="v-btn&#45;&#45;simple"-->
+<!--                                            color="danger"-->
+<!--                                            icon-->
+<!--                                        >-->
+<!--                                            <v-icon color="error">mdi-close</v-icon>-->
+<!--                                        </v-btn>-->
 
-                                    </div>
-                                </v-list-item>
-                                <v-divider/>
-                                <v-list-item @click="complete(1)">
-                                    <v-list-item-action>
-                                        <v-checkbox
-                                            :value="list[1]"
-                                            color="success"
-                                        />
-                                    </v-list-item-action>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Lines From Great Russian Literature? Or E-mails From My Boss?
-                                        </v-list-item-title>
-                                    </v-list-item-content>
-                                    <div class="d-flex">
-                                        <v-btn
-                                            class="v-btn--simple"
-                                            color="success"
-                                            icon
-                                        >
-                                            <v-icon color="primary">mdi-pencil</v-icon>
-                                        </v-btn>
-                                        <v-btn
+<!--                                    </div>-->
+<!--                                </v-list-item>-->
+<!--                                <v-divider/>-->
+<!--                                <v-list-item @click="complete(1)">-->
+<!--                                    <v-list-item-action>-->
+<!--                                        <v-checkbox-->
+<!--                                            :value="list[1]"-->
+<!--                                            color="success"-->
+<!--                                        />-->
+<!--                                    </v-list-item-action>-->
+<!--                                    <v-list-item-content>-->
+<!--                                        <v-list-item-title>-->
+<!--                                            Lines From Great Russian Literature? Or E-mails From My Boss?-->
+<!--                                        </v-list-item-title>-->
+<!--                                    </v-list-item-content>-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <v-btn-->
+<!--                                            class="v-btn&#45;&#45;simple"-->
+<!--                                            color="success"-->
+<!--                                            icon-->
+<!--                                        >-->
+<!--                                            <v-icon color="primary">mdi-pencil</v-icon>-->
+<!--                                        </v-btn>-->
+<!--                                        <v-btn-->
 
-                                            class="v-btn--simple"
-                                            color="danger"
-                                            icon>
-                                            <v-icon color="error">mdi-close</v-icon>
-                                        </v-btn>
-                                    </div>
-                                </v-list-item>
-                                <v-divider/>
-                                <v-list-item @click="complete(2)">
-                                    <v-list-item-action>
-                                        <v-checkbox
-                                            :value="list[2]"
-                                            color="success"
-                                        />
-                                    </v-list-item-action>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Flooded: One year later, assessing what was lost and what was found when a
-                                            ravaging rain swept
-                                            through metro Detroit
-                                        </v-list-item-title>
-                                    </v-list-item-content>
-                                    <div class="d-flex">
-                                        <v-btn
+<!--                                            class="v-btn&#45;&#45;simple"-->
+<!--                                            color="danger"-->
+<!--                                            icon>-->
+<!--                                            <v-icon color="error">mdi-close</v-icon>-->
+<!--                                        </v-btn>-->
+<!--                                    </div>-->
+<!--                                </v-list-item>-->
+<!--                                <v-divider/>-->
+<!--                                <v-list-item @click="complete(2)">-->
+<!--                                    <v-list-item-action>-->
+<!--                                        <v-checkbox-->
+<!--                                            :value="list[2]"-->
+<!--                                            color="success"-->
+<!--                                        />-->
+<!--                                    </v-list-item-action>-->
+<!--                                    <v-list-item-content>-->
+<!--                                        <v-list-item-title>-->
+<!--                                            Flooded: One year later, assessing what was lost and what was found when a-->
+<!--                                            ravaging rain swept-->
+<!--                                            through metro Detroit-->
+<!--                                        </v-list-item-title>-->
+<!--                                    </v-list-item-content>-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <v-btn-->
 
-                                            class="v-btn--simple"
-                                            color="success"
-                                            icon
-                                        >
-                                            <v-icon color="primary">mdi-pencil</v-icon>
-                                        </v-btn>
-                                        <v-btn
+<!--                                            class="v-btn&#45;&#45;simple"-->
+<!--                                            color="success"-->
+<!--                                            icon-->
+<!--                                        >-->
+<!--                                            <v-icon color="primary">mdi-pencil</v-icon>-->
+<!--                                        </v-btn>-->
+<!--                                        <v-btn-->
 
-                                            class="v-btn--simple"
-                                            color="danger"
-                                            icon>
-                                            <v-icon color="error">mdi-close</v-icon>
-                                        </v-btn>
+<!--                                            class="v-btn&#45;&#45;simple"-->
+<!--                                            color="danger"-->
+<!--                                            icon>-->
+<!--                                            <v-icon color="error">mdi-close</v-icon>-->
+<!--                                        </v-btn>-->
 
-                                    </div>
-                                </v-list-item>
-                            </v-list>
-                        </v-tab-item>
-                    </v-tabs-items>
-                </material-card>
+<!--                                    </div>-->
+<!--                                </v-list-item>-->
+<!--                            </v-list>-->
+<!--                        </v-tab-item>-->
+<!--                    </v-tabs-items>-->
+<!--                </material-card>-->
+                <button> Publish NewsLetter</button>
             </v-flex>
         </v-layout>
     </v-container>

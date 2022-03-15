@@ -26,17 +26,6 @@ Route::group([
     'prefix' => 'v1/',
     'namespace' => 'Api'
 ], function () {
-//    Route::get("/get-system-data", [AppController::class, 'index']);
-//    Route::post("/save-favorites", [AppController::class, 'saveFavorites']);
-//    Route::post("/get-favorites", [AppController::class, 'getFavorites']);
-//    Route::post("/remove-favorites", [AppController::class, 'removeFavorites']);
-//    Route::post("/save-personal-settings", [AppController::class, 'savePersonalSettings']);
-//    Route::post("/get-personal-settings", [AppController::class, 'getPersonalSettings']);
-//    Route::get("/get-home-page-data", [AppArticleController::class, 'getHomePageData']);
-//    Route::get("/search-article", [AppArticleController::class, 'searchArticle']);
-//    Route::get("/get-article/{id}", [AppArticleController::class, 'getArticle']);
-//    Route::get("/get-page/{id}", [AppController::class, 'getPage']);
-
     Route::post('/send-mail', [WebsiteController::class, 'sendMail'])->name('send.mail');
 });
 
@@ -69,6 +58,7 @@ Route::group([
     Route::get("fetch-all-published-pages", [PageController::class, 'get']);
     Route::get("pages/{slug}/edit", [PageController::class, 'edit']);
     Route::post("pages/{id}", [PageController::class, 'update']);
+    Route::post("sendNewsLetter", [PageController::class, 'sendLetter']);
     Route::apiResource("pages", PageController::class);
 
     Route::get("settings", [SettingsController::class, 'get']);

@@ -22,6 +22,7 @@ class Article extends BaseModel
         'excerpt',
         'cover_caption',
         'image',
+        'price',
         'image_disk', // 'default: local, option: s3, gc (google cloud), if null then external link'
         'meta_title',
         'featured',

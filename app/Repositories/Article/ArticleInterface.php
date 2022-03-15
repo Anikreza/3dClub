@@ -7,7 +7,7 @@ interface ArticleInterface
 
     public function update(Request $request, int $id);
 
-    public function delete(int $id);
+    public function delete(string $id);
 
     public function paginateWithFilter(int $limit);
 

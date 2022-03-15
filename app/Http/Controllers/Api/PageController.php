@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\NewsLetter;
 use App\Models\Page;
 use App\Models\PageLink;
 use App\Repositories\Page\PageRepository;
@@ -111,6 +112,34 @@ class PageController extends ApiController
 
         return $this->successResponse($category);
     }
+
+        public function sendLetter(Request $request): JsonResponse
+    {
+        $subscribers = NewsLetter::all();
+        $data = [
+            'subject' =>saveTextEditorImage($request->input('description'))
+        ];
+        $subject = "Hey Man";
+        $body = "This Is The Body";
+        $name = 'Name';
+        $email = env('MAIL_USERNAME');
+        for ($i = 0; $i < $subscribers->count(); $i++) {
+            \Mail::send(  ['html'=>'email.mail'],$data, function ($message) use ($subscribers, $i) {
+                $message->to($subscribers[$i]->email)
+                    ->from('Anikreza22@gmail.com', 'Anik Reza')
+                    ->subject('Subject Line')
+                    ->attach ('D:\phpstorm\Shagor\public\assets\images\a.jpg', [
+                        'as' => 'image.jpg',
+                        'mime' => 'images/jpg'
+                    ]);
+            });
+        }
+//        D:\phpstorm\Shagor\public\assets\images\a.jpg
+
+        return $this->successResponse($data);
+    }
+
+
 
     /**
      * Deletes Category & Returns boolean

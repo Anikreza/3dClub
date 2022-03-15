@@ -5,6 +5,7 @@ namespace App\Repositories\Article;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Keyword;
+use App\Models\SubCategory;
 use App\Models\Visitor;
 use Cache;
 use Illuminate\Support\Carbon;
@@ -46,6 +47,7 @@ class ArticleRepository implements ArticleInterface
             'title' => $request->input('title'),
             'slug' => $this->slugify($request->input('title')),
             'excerpt' => $request->input('excerpt'),
+            'price' => $request->input('price'),
             'featured' => filter_var($request->input('featured'), FILTER_VALIDATE_BOOLEAN),
             'description' => $request->input('description'),
             'published' => filter_var($request->input('published'), FILTER_VALIDATE_BOOLEAN),
@@ -55,6 +57,13 @@ class ArticleRepository implements ArticleInterface
         ]);
         // Category
         $article->categories()->sync([$request->input('categories')]);
+
+        $subCategory = SubCategory::create([
+            'whichCategory_id' => $request->input('categories'),
+            'name' => $request->input('city'),
+            'slug' => $this->slugify($request->input('title')),
+            'model' => $this->slugify($request->input('title')),
+        ]);
 
         // Keywords
         $newKeywords = explode(',', $request->input('keywords'));
@@ -101,6 +110,7 @@ class ArticleRepository implements ArticleInterface
             'published' => filter_var($request->input('published'), FILTER_VALIDATE_BOOLEAN),
             'meta_title' => $request->input('meta_title'),
             'image' => $image_url,
+            'price' => $request->input('price'),
         ];
 
         // Category
@@ -123,22 +133,21 @@ class ArticleRepository implements ArticleInterface
         return ['article' => $article, 'previouslyPublished' => $isPublishedBefore];
     }
 
-    public function delete(int $id)
+    public function delete(string $id)
     {
-        $article = Article::findOrFail($id);
-        if (File::exists($article->image)) {
-            File::delete($article->image);
-        }
-        $article->categories()->detach();
-        $article->keywords()->detach();
-
-        return $article->delete();
+        $article = Article::where('slug', '=', $id);
+//        $article->categories()->detach();
+//        $article->keywords()->detach();
+        SubCategory::where('model', '=', $id)->delete();
+        $article->delete();
+        return $id;
     }
 
     public function all(array $columns = [])
     {
-        return count($columns) ? Article::select($columns)->orderBy('id')->get() : Article::orderBy('viewed')->get();
+        return count($columns) ? Article::select($columns)->orderBy('id')->get() : Article::orderBy('viewed','asc')->get();
     }
+
 
     public function paginate($perPage = 10)
     {
@@ -167,7 +176,15 @@ class ArticleRepository implements ArticleInterface
     public function paginateByCategoryWithFilter(int $perPage, int $categoryId)
     {
         return $this->baseQuery($categoryId)
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
+            ->select('id', 'title','price', 'slug', 'featured', 'published', 'image', 'viewed', 'description','stock','excerpt')
+            ->latest()
+            ->paginate($perPage);
+    }
+
+    public function paginateAllProducts(int $perPage)
+    {
+        return $this->model
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description', 'price', 'excerpt')
             ->latest()
             ->paginate($perPage);
     }
@@ -184,7 +201,8 @@ class ArticleRepository implements ArticleInterface
         return Article::all()->count();
     }
 
-    public function SetVisitor()   {
+    public function SetVisitor()
+    {
         $ip = request()->ip();
         $visited_date = Carbon::now();
         $visitor = Visitor::firstOrCreate(['ip' => $ip], ['visit_date' => $visited_date]);
@@ -224,11 +242,7 @@ class ArticleRepository implements ArticleInterface
 
     public function getLastWeeksVisitCountByDay()
     {
-        //
-//        $visitorsPerDay = [];
-//        foreach ($data as $key=>$item) {
-//            $visitorsPerDay[] = $item->visits;
-//        }
+
         return Visitor::select(DB::raw('sum(hits) as visits'))
             ->where('visit_date', ">", DB::raw('NOW() - INTERVAL 1 WEEK'))
             ->groupBy('visit_date')
@@ -243,7 +257,7 @@ class ArticleRepository implements ArticleInterface
     private function baseQuery(int $categoryId = 1)
     {
         return $this->model->whereHas('categories', function ($q) use ($categoryId) {
-            $q->where('is_published', '=', 0);
+            $q->where('is_published', '=', 1);
             $q->when($categoryId !== 1, function ($sq) use ($categoryId) {
                 $sq->where('category_id', $categoryId);
             });
@@ -252,40 +266,38 @@ class ArticleRepository implements ArticleInterface
 
     public function publishedArticles(int $categoryId, int $limit)
     {
-        return $this->baseQuery($categoryId)
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
-            ->with('favorites')
+        return $this->model
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description', 'excerpt', 'price')
             ->with('categories')
             ->latest()
             ->limit($limit)
             ->get();
     }
 
-    public function publishedFeaturedArticles(int $categoryId, int $limit)
+    public function publishedFeaturedArticles( int $limit)
     {
-        return $this->baseQuery($categoryId)
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
+        return $this->model
+            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description', 'excerpt', 'price')
             ->where('featured', 1)
-            ->latest()
+            ->orderBy('title')
             ->limit($limit)
             ->get();
     }
 
     public function mostReadArticles(int $categoryId, int $limit)
     {
-        return $this->baseQuery($categoryId)
+        return $this->model
             ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
             ->limit($limit)
             ->orderBy('viewed', 'desc')
             ->get();
     }
 
-    public function getArticle($condition, $isSlug = false)
+    public function getArticle($condition, $isSlug = true)
     {
         return $this->model->with(['categories' => function ($q) use ($condition, $isSlug) {
             $q->with(['articles' => function ($sq) use ($condition, $isSlug) {
-                $sq->select('article_id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description')
-                    ->with('favorites')
+                $sq->select('article_id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description', 'price')
                     ->where('published', '=', true)
                     ->when($isSlug, function ($s) use ($condition, $isSlug) {
                         $s->where('slug', '!=', $condition);
@@ -297,7 +309,7 @@ class ArticleRepository implements ArticleInterface
                     ->limit(4);
             }]);
         }])
-            ->with(['keywords', 'favorites'])
+            ->with('keywords')
             ->where('published', true)
             ->when($isSlug, function ($q) use ($condition) {
                 $q->where('slug', $condition);
@@ -308,58 +320,15 @@ class ArticleRepository implements ArticleInterface
             ->first();
     }
 
-    public function getSimilarArticles($categoryId, $limit)
-    {
-        return $this->baseQuery($categoryId)
-            ->select('id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description')
-            ->inRandomOrder()
-            ->limit($limit)
-            ->get();
-    }
-
     public function searchArticles($query, $perPage)
     {
         return $this->baseQuery(1)
             ->select('id', 'title', 'slug', 'published', 'viewed', 'image', 'featured', 'description')
             ->where('title', 'LIKE', '%' . $query . '%')
             ->latest()
-            ->limit(5)
+            ->limit($perPage)
             ->paginate($perPage);
     }
 
-    public function getAllTags()
-    {
-        return Keyword::all();
-    }
-
-    public function getTagInfoWithArticles($tag, $perPage, $includeFavorites = false): array
-    {
-        $string = Str::title(str_replace('-', ' ', trim($tag)));
-        $tag = Keyword::where('title', 'LIKE', '%' . $string . '%')->get();
-        $tags = Keyword::all();
-
-        return [
-            'tagInfo' => count($tag) ? $tag[0] : null,
-            'tags' => count($tags) ? $tags : null,
-            'articles' => count($tag) ? $this->getArticlesByTag($perPage, $tag->pluck('id')->toArray(), $includeFavorites) : []
-        ];
-    }
-
-    public function getArticlesByTag($perPage, array $keywordIds, $includeFavorites = false)
-    {
-        $q = $this->model->whereHas('keywords', function ($q) use ($keywordIds) {
-            $q->whereIn('keyword_id', $keywordIds);
-        })
-            ->with('categories:id,name,slug')
-            ->with('keywords:id,title')
-            ->where('published', true)
-            ->when($includeFavorites, function ($q) {
-                $q->with(['favorites']);
-            })
-            ->select('id', 'title', 'slug', 'featured', 'published', 'image', 'viewed', 'description')
-            ->latest();
-
-        return $perPage === 4 ? $q->limit($perPage)->get() : $q->paginate($perPage);
-    }
 
 }

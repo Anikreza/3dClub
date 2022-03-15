@@ -1,58 +1,36 @@
+
 <!-- Header -->
-<header class="is-sticky is-shrink is-boxed header-s1" id="header">
-    <div class="header-box">
-        <div class="header-main">
-            <div class="header-wrap">
-                <!-- Logo  -->
-                <div class="header-logo logo">
-                    <a href="{{ route('home') }}" class="logo-link">
-                        <img class="logo-white" src="{{asset("images/logo.png")}}" alt="logo">
-                    </a>
-                </div>
-
-                <!-- Menu Toogle -->
-                <div class="header-nav-toggle">
-                    <a href="#" class="search search-mobile search-trigger"><i class="icon ti-search"></i></a>
-                    <a href="#" class="navbar-toggle" data-menu-toggle="header-menu">
-                        <div class="toggle-line">
-                            <span></span>
-                        </div>
-                    </a>
-                </div>
-                <!-- Menu Toogle -->
-
-                <!-- Menu -->
-                <div class="header-navbar">
-                    <nav class="header-menu" id="header-menu">
-                        <ul class="menu">
-                            @foreach($categories as $category)
-                                <li class="nav-item">
-                                    <a class="nav-link @if(url()->current() == route('category', ['slug' => $category]) ) active @endif"
-                                       aria-current="page"
-                                       href="{{ route('category', ['slug' => $category]) }}">{{ strtoupper($category) }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <ul class="menu-btns">
-                            <li><a href="" class="btn search search-trigger"><i class="icon ti-search "></i></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div><!-- .header-navbar -->
-
-                <!-- header-search -->
-                <div class="header-search">
-                    <form class="search-form" action="{{ route('search') }}">
-                        <div class="search-group">
-                            <input type="text" class="input-search" placeholder="Search.." name="query"
-                                   required>
-                            <button class="search-submit" type="submit"><i class="icon ti-search"></i></button>
-                        </div>
-                    </form>
-                </div>
-                <!-- . header-search -->
+<header style="position: fixed; top: 0;    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('home') }}"><h2>3d <em>Club</em></h2></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li {!! (Request::url() == url('/')) ? ' class="nav-item active"' : 'nav-item' !!}>
+                        <a class="nav-link" href="/">Home
+                        </a>
+                    </li>
+                    <li {!! (Request::url() == url('/products')) ? ' class="nav-item active"' : 'nav-item' !!}>
+                        <a class="nav-link" href="{{ route('shop') }}">Our Models</a>
+                    </li>
+                    <li {!! (Request::url() == url('/about')) ? ' class="nav-item active"' : 'nav-item' !!}>
+                        <a class="nav-link" href="{{route('about')}}">About Us</a>
+                    </li>
+                    <li {!! (Request::url() == url('/contact')) ? ' class="nav-item active"' : 'nav-item' !!}>
+                        <a class="nav-link" href="{{route('contact')}}">Contact Us</a>
+                    </li>
+                    <li {!! (Request::url() == url('/cartItems')) ? ' class="nav-item active"' : 'nav-item' !!}>
+                        <a class="nav-link" href="{{route('cartItems')}}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span style="margin-left: 1px;">{{\Gloudemans\Shoppingcart\Facades\Cart::count()}}</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 </header>
-<!-- end header -->

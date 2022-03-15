@@ -73,12 +73,12 @@
                                                 hint="comma (,) separated"/>
 
                                         </v-col>
-                                        <v-col cols="12" sm="12" md="12">
-                                            <VRadioInputWithValidation field="is_video_cat"
-                                                                       :rules="'required'"
-                                                                       :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"
-                                                                       v-model="form.is_video"/>
-                                        </v-col>
+<!--                                        <v-col cols="12" sm="12" md="12">-->
+<!--                                            <VRadioInputWithValidation field="is_video_cat"-->
+<!--                                                                       :rules="'required'"-->
+<!--                                                                       :options="[{label: 'Yes', value: 1}, {label: 'No', value: 0}]"-->
+<!--                                                                       v-model="form.is_video"/>-->
+<!--                                        </v-col>-->
                                         <v-col cols="12" sm="12" md="12">
                                             <VRadioInputWithValidation field="published"
                                                                        :rules="'required'"
@@ -252,7 +252,6 @@ export default {
                 meta_title: '',
                 excerpt: '',
                 keywords: '',
-                is_video: 0,
                 is_published: 1
             }
         }
@@ -287,7 +286,6 @@ export default {
                 meta_title: '',
                 excerpt: '',
                 keywords: '',
-                is_video: 0,
                 is_published: 1
             };
             this.dialog = true

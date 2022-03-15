@@ -1,21 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
-;
 
+use App\Models\Article;
 use App\Models\Category;
+use App\Models\NewsLetter;
+use App\Models\Order;
 use App\Models\Page;
 use App\Models\PageLink;
-use App\Models\Visitor;
+use App\Models\SubCategory;
 use App\Repositories\Article\ArticleRepository;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Share;
-use Str;
 
 
 class WebsiteController extends Controller
@@ -51,29 +54,75 @@ class WebsiteController extends Controller
         ];
 
         $this->articleRepository = $articleRepository;
-        $tags = $this->articleRepository->getAllTags();
-//        $tagTitles=[];
-//        foreach ($tags as $tag)
-//            array_push($tagTitles,$tag->title);
-        $categories = Category::select('name', 'slug')->where('is_published', 0)->orderBy('position', 'asc')->pluck('name', 'slug');
+        $categories = Category::with('subCategory', 'articles')->get();
         $featuredArticles = $this->articleRepository->publishedArticles(1, 3);
         $footerPages = \Cache::remember('footer_pages', config('cache.default_ttl'), function () {
             return PageLink::where('key', 'footer_pages')->with('page:id,title,slug')->get()->toArray();
         });
+
         view()->share('footerPages', $footerPages);
         view()->share('categories', $categories);
-        view()->share('tags', $tags);
-        view()->share('featuredPosts', $featuredArticles);
+    }
+
+    public function shop()
+    {
+        $segments = [
+            [
+                'name' => "Our Models",
+            ],
+        ];
+
+        $allArticles = $this->articleRepository->paginateAllProducts(5);
+        $title = request()->has('page') ? 'Shop' . " (Page " . request('page') . ')' : 'Shop';
+        $app = $this->homePageSeoData['app_name'];
+        $this->baseSeoData['title'] = "{$title} | {$app}";
+        $this->baseSeoData['description'] = "Buy 3d models from 3dClub";
+        $this->seo($this->baseSeoData);
+        return view('pages.products.index',
+            compact(
+                'allArticles',
+                'segments'
+            )
+        );
+    }
+
+    public function about()
+    {
+        $segments = [
+            [
+                'name' => "About Us",
+            ],
+        ];
+
+        $title = request()->has('page') ? 'About' . " (Page " . request('page') . ')' : 'About';
+        $app = $this->homePageSeoData['app_name'];
+        $this->baseSeoData['title'] = "{$title} | {$app}";
+        $this->seo($this->baseSeoData);
+        return view('pages.about.index',
+            compact(
+                'segments'
+            )
+        );
+    }
+
+    public function contact()
+    {
+        $title = request()->has('page') ? 'Contact' . " (Page " . request('page') . ')' : 'Contact';
+        $app = $this->homePageSeoData['app_name'];
+        $this->baseSeoData['title'] = "{$title} | {$app}";
+        $this->seo($this->baseSeoData);
+        return view('pages.contact.index');
+
     }
 
     public function index()
     {
 
         $this->articleRepository->SetVisitor();
-        $publishedArticles = $this->articleRepository->publishedArticles(1, 4);
-        $featuredArticles = $this->articleRepository->publishedFeaturedArticles(1, 3);
+        $publishedArticles = $this->articleRepository->publishedArticles(1, 3);
+        $featuredArticles = $this->articleRepository->publishedFeaturedArticles(3);
         $mostReadArticles = $this->articleRepository->mostReadArticles(1, 3);
-
+//        dd($publishedArticles);
         $this->seo($this->baseSeoData);
 
         return view('pages.home.index',
@@ -85,41 +134,136 @@ class WebsiteController extends Controller
         );
     }
 
+    public function addToCart(Request $request)
+    {
+        $product = Article::findOrFail($request->input('product_id'));
+        $duplicates = Cart::search(function ($cartItem, $rowId) use ($product) {
+            return $cartItem->id === $product->id;
+        });
+
+        if ($duplicates->isNotEmpty()) {
+            return redirect()->route('cartItems')->with('success_message', "{$product->title} was already in your cart!");
+        }
+
+        Cart::add($product->id, $product->title, 1, $product->price, 0, ['image' => $product->image])
+            ->associate('App\Models\Article');
+
+        return redirect()->route('cartItems')->with('success_message', "{$product->title} is added to your cart");
+
+
+//        return Redirect::route('cartItems')->with('message', 'successfully added');
+//        return redirect()->back();
+
+    }
+
+    public function showCart()
+    {
+        $cartItems = Cart::content();;
+        $count = $cartItems->count();
+        $subtotal = Cart::subtotal();
+        $title = request()->has('page') ? 'Shopping' . " (Page " . request('page') . ')' : 'Shopping';
+        $app = $this->homePageSeoData['app_name'];
+        $this->baseSeoData['title'] = "{$title} | {$app}";
+        $this->seo($this->baseSeoData);
+        return view('pages.cart.index', compact('cartItems', 'subtotal', 'count'));
+    }
+
+    public function checkout(Request $request)
+    {
+        $contents = Cart::content()->map(function ($item) {
+            return $item->model->title;
+        })->values()->toJson();
+        $subtotal = Cart::subtotal();
+
+        Order::create([
+            'firstname' => $request->input('firstName'),
+            'lastname' => $request->input('lastName'),
+            'email' => $request->input('email'),
+            'cardName' => $request->input('cardName'),
+            'cardNumber' => $request->input('cardNumber'),
+            'cardExpiration' => $request->input('cardExpiration'),
+            'cvv' => $request->input('cvv'),
+            'products' => $contents,
+            'total' => $subtotal
+        ]);
+        return Redirect::route('contact');
+    }
+
+  public function sendBuyMail(Request $request)
+    {
+        $contents = Cart::content()->map(function ($item) {
+            return $item->model->title;
+        })->values()->toJson();
+        $subtotal = Cart::subtotal();
+
+        $data = [
+            'recipent' => 'alexthegreatmaiden@gmail.com',
+            'firstname' => $request->input('firstName'),
+            'lastname' => $request->input('lastName'),
+            'email' => $request->input('email'),
+            'subject' => "Hey Shagor! I wanted to buy Something from you",
+            'products' => $contents,
+            'total' => $subtotal,
+
+        ];
+//        $data = $request->only('name', 'email', 'subject', 'message');
+//        \Mail::to('anikreza22@gmail.com')->send(new SendContactMail($data));
+
+      \Mail::send('email.buyProductsTemplate',$data, function ($message) use ($data) {
+          $message->to($data['recipent'])
+              ->from($data['email'], $data['lastname'])
+              ->subject($data['subject']);
+      });
+
+        return Redirect::route('home');
+    }
+
+    public function confirmPayment(Request $request)
+    {
+        return view('pages.checkout.index');
+    }
+
+    public function deleteCart($id)
+    {
+        Cart::remove($id);
+        return back();
+    }
+
     public function articleDetails($slug)
     {
-        $article = $this->articleRepository->getArticle($slug, true);
-        if (!$article) {
+        $product = $this->articleRepository->getArticle($slug, true);
+        if (!$product) {
             return $this->renderPage($slug);
         }
-        $category = $article['categories'][0];
-        $similarArticles = $this->articleRepository->getSimilarArticles($category['id'], 2);
-        $tags = $article->keywords;
-        $tagTitles=[];
-        foreach ($tags as $tag)
-            array_push($tagTitles,$tag->title);
+        $category = $product['categories'][0];
+//        $similarArticles = $this->articleRepository->getSimilarArticles($category['id'], 2);
+//        $tags = $product->keywords;
+        $tagTitles = [];
+//        foreach ($tags as $tag)
+//            array_push($tagTitles, $tag->title);
         $segments = [
             [
-                'name' => $article['categories'][0]['name'],
+                'name' => $product['categories'][0]['name'],
                 'url' => route('category', [
                     'slug' => $category['slug']
                 ])
             ],
-            ['name' => $article['title'], 'url' => url($slug)]
+            ['name' => $product['title'], 'url' => url($slug)]
         ];
         $cacheKey = request()->ip() . $slug;
-        \Cache::remember($cacheKey, 60, function () use ($article) {
-            $article->viewed = $article->viewed + 1;
-            $article->save();
+        \Cache::remember($cacheKey, 60, function () use ($product) {
+            $product->viewed = $product->viewed + 1;
+            $product->save();
             return true;
         });
 
         $appName = env('APP_NAME');
-        $this->baseSeoData['title'] = " $article->title - $appName";
+        $this->baseSeoData['title'] = " $product->title - $appName";
         $this->baseSeoData['keywords'] = $tagTitles;
         $this->seo($this->baseSeoData);
-        $shareLinks = $this->getSeoLinksForDetailsPage($article);
+        $shareLinks = $this->getSeoLinksForDetailsPage($product);
 
-        return view('pages.articleDetail.index', compact('article', 'shareLinks','similarArticles', 'category', 'segments'));
+        return view('pages.productDetails.index', compact('product', 'shareLinks', 'category', 'segments'));
     }
 
     public function categoryDetails($slug)
@@ -131,54 +275,28 @@ class WebsiteController extends Controller
                 'url' => route('category', ['slug' => $category->slug])
             ],
         ];
-        $categoryArticles = $this->articleRepository->paginateByCategoryWithFilter(5, $category->id);
 
-        // SEO META INFO
-//        $name = empty($category->meta_title) ? $category->name : $category->meta_title;
-//        $title = request()->has('page') ? $name . " (Page " . request('page') . ')' : $name;
-        $appName = env('APP_NAME');
-        $this->baseSeoData['title'] = "{$appName} | {$category->name} | {$category->keywords}";
+        $categoryArticles = $this->articleRepository->paginateByCategoryWithFilter(5, $category->id);
+        $name = empty($category->meta_title) ? $category->name : $category->meta_title;
+        $title = request()->has('page') ? $name . " (Page " . request('page') . ')' : $name;
+        $this->baseSeoData['title'] = "{$title} | {$category->name} | {$category->keywords}";
         $this->baseSeoData['description'] = "{$category->excerpt}";
         $this->baseSeoData['keywords'] = "{$category->keywords}";
         $this->seo($this->baseSeoData);
 
-        return view('pages.category.index', compact('segments', 'category', 'categoryArticles'));
-    }
-
-    public function tagDetails($slug)
-    {
-        $tagDetails = $this->articleRepository->getTagInfoWithArticles($slug, 10);
-        $tag = $tagDetails['tagInfo'];
-        $tags = $tagDetails['tags'];
-        $tagArticles = $tagDetails['articles'];
-
-        if (!isset($tag->title)) {
-            \Log::error("tag not found: " . $slug);
-            abort(404);
-        }
-
-        $segments = [
-            ['name' => $tag->title, 'url' => route('tag', ['slug' => Str::slug($tag->title)])],
-        ];
-
-        // SEO META INFO
-        if ($tag->title == 'XYZs column') {
-            $this->baseSeoData['title'] = "Demo blogsite Travel blog | {$this->baseSeoData['app_name']}";
-            $this->baseSeoData['description'] = "here, you will find blogs describing cultures, ethnicity and politics around the world";
-        } else {
-            $this->baseSeoData['title'] = "{$tag->title} | {$this->baseSeoData['app_name']}";
-        }
-
-        $this->seo($this->baseSeoData);
-
-        view()->share('tags', $tags);
-        return view('pages.tag.index', compact('segments', 'tag', 'tagArticles'));
+        return view('pages.category.index', compact('segments', 'category','categoryArticles'));
     }
 
     public function searchArticle(Request $request)
     {
-        $searchTerm = $request->input('query');
-        $searchedArticles = $this->articleRepository->searchArticles($searchTerm, 3);
+            if($request->input('query')!==''){
+                $searchTerm = $request->input('query');
+            }
+            else{
+                $searchTerm='Models';
+            }
+
+        $allArticles = $this->articleRepository->searchArticles($searchTerm, 5);
 
         $segments = [
             ['name' => $searchTerm],
@@ -189,8 +307,9 @@ class WebsiteController extends Controller
         $this->baseSeoData['title'] = "$searchTerm - $appName";
         $this->seo($this->baseSeoData);
 
-        return view('pages.search.index', compact('segments', 'searchTerm', 'searchedArticles'));
+        return view('pages.products.index', compact('segments', 'searchTerm', 'allArticles'));
     }
+
     public function renderPage($slug)
     {
         $page = Page::where('slug', $slug)->with('keywords')->first();
@@ -215,27 +334,6 @@ class WebsiteController extends Controller
         return view('pages.page-details.index', compact('page', 'segments', 'shareLinks'));
     }
 
-    private function generatePageClass($title): \stdClass
-    {
-        $page = new \stdClass();
-        $page->title = $title;
-        $page->excerpt = null;
-        $page->keywords = [];
-        $page->image_url = null;
-        return $page;
-    }
-
-    public function getColumnistPage()
-    {
-        $page = $this->generatePageClass('Columnist');
-        $segments = [
-            ['name' => $page->title, 'url' => url('Columnist')]
-        ];
-        $shareLinks = $this->getSeoLinksForDetailsPage($page);
-
-        return view('pages.columnist.index', compact('page', 'segments', 'shareLinks'));
-    }
-
     private function getSeoLinksForDetailsPage($data)
     {
         $this->baseSeoData = [
@@ -257,6 +355,67 @@ class WebsiteController extends Controller
             ->whatsapp()
             ->telegram()
             ->getRawLinks();
+    }
+
+    public function sendMail(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'email|required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+        $data = [
+            'recipent' => 'alexthegreatmaiden@gmail.com',
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'body' => $request->message
+        ];
+//        $data = $request->only('name', 'email', 'subject', 'message');
+//        \Mail::to('anikreza22@gmail.com')->send(new SendContactMail($data));
+
+        \Mail::send('email.contact-template',$data, function ($message) use ($data) {
+            $message->to($data['recipent'])
+                ->from($data['email'], $data['name'])
+                ->subject($data['subject']);
+        });
+
+        return Redirect::back()->with('success', 'Thank you, we have got your message');
+    }
+
+
+    public function newsLetters(Request $request): \Illuminate\Http\RedirectResponse
+    {
+
+        $request->validate([
+            'email' => 'email|required',
+        ]);
+
+        NewsLetter::create([
+            'email' => $request->input('email')
+        ]);
+
+        return back()->with("success", "Thanks! We Got You!!");
+    }
+
+    public function sendNewsLetters(Request $request): \Illuminate\Http\RedirectResponse
+    {
+//        $subscribers = NewsLetter::all();
+//        $data = [];
+//        $subject = "Hey Man";
+//        $body = "This Is The Body";
+//        $name = 'Name';
+//        $email = env('MAIL_USERNAME');
+//        for ($i = 0; $i < $subscribers->count(); $i++) {
+//            \Mail::send('email.mail', $data, function ($message) use ($subscribers, $i) {
+//                $message->to($subscribers[$i]->email)
+//                    ->from('Anikreza22@gmail.com', 'Anik Reza')
+//                    ->subject('Subject Line');
+//            });
+//        }
+
+        return back()->with("success", "Thank You, We've Got You");
     }
 
     private function seo($data)
@@ -306,11 +465,11 @@ class WebsiteController extends Controller
 
         if ($data['image']) {
 
-         JsonLd::setImage($data['image']); // add image url
+            JsonLd::setImage($data['image']); // add image url
         } else {
             JsonLd::setImage($this->homePageSeoData['home_page_image_url']); // add image url
         }
-        JsonLd::setSite('@DemoBlog'); // site of twitter card tag
+        JsonLd::setSite('@3dClub'); // site of twitter card tag
         JsonLd::setUrl(url()->current()); // url of twitter card tag
     }
 }

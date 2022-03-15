@@ -19,6 +19,7 @@ class CreateArticlesTable extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->longText('description');
+            $table->float('price');
             $table->text('excerpt')->nullable();
             $table->string('image')->nullable();
             $table->string('image_disk')->nullable();

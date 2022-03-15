@@ -63,7 +63,10 @@
                     <v-row>
                         <v-col style="text-align: center">
                             <v-btn depressed color="primary" @click="handleSubmit(save)">
-                                Save
+                                Save Page
+                            </v-btn>
+                            <v-btn depressed color="secondary" @click="handleSubmit(sendNewsLetter)">
+                                Send NewsLetter
                             </v-btn>
                         </v-col>
                     </v-row>
@@ -106,7 +109,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: "Article Form"
+            default: "Page Form"
         },
         shortDescription: {
             type: String,
@@ -133,7 +136,8 @@ export default {
                 published: 1,
                 description: '',
                 keywords: '',
-            }
+            },
+            selected:''
         }
     },
     async mounted() {
@@ -141,6 +145,9 @@ export default {
         if (this.pageKey) {
             await this.get();
         }
+    },
+    async created() {
+        console.log('here',this.selected)
     },
     methods: {
         async get() {
@@ -176,6 +183,19 @@ export default {
                 this.$toastr.e('Something went wrong! ' + err);
                 this.loading = false;
             })
+        },
+        sendNewsLetter(){
+            this.loading = true;
+            pageApi.sendNewsLetter(this.form).then((response)=> {
+                console.log('response',response.data.data)
+                this.$toastr.s('Data saved successful');
+                this.$router.push({name: 'pages'});
+                this.loading = false;
+            }).catch(err => {
+                this.$toastr.e('Something went wrong! ' + err);
+                this.loading = false;
+            })
+        console.log('Letter Sent')
         }
     }
 }
@@ -188,4 +208,6 @@ export default {
 #editor p {
     margin: 0 0 10px 0;
 }
+
+
 </style>

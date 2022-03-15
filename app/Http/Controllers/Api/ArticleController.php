@@ -28,6 +28,7 @@ class ArticleController extends ApiController
     {
 
         $allArticles= $this->successResponse($this->articleRepository->paginate(10), true);
+        $mostRead= $this->successResponse($this->articleRepository->mostReadArticles(1, 5));
         $count= $this->successResponse($this->articleRepository->getArticleCount(), true);
         $hitsPerUser= $this->successResponse($this->articleRepository->getUniqueVisitorCount(), true);
         $hits= $this->successResponse($this->articleRepository->getTotalVisitCount(), true);
@@ -39,6 +40,7 @@ class ArticleController extends ApiController
 
         $response = [
             'all' => $allArticles,
+            'mostRead' => $mostRead,
             'countInLastDay'=>$count,
             'allArticleCount'=>$AllCount,
             'allTimeUniqueVisitors'=>$hitsPerUser,
@@ -62,7 +64,7 @@ class ArticleController extends ApiController
     {
         $request->validate([
             'title' => 'required|unique:articles,title',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20000'
         ]);
 
         \DB::beginTransaction();
@@ -131,7 +133,7 @@ class ArticleController extends ApiController
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $id): JsonResponse
+    public function destroy(Request $request, string $id): JsonResponse
     {
         $this->articleRepository->delete($id);
         \Artisan::call('cache:clear');

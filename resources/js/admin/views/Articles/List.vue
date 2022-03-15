@@ -44,7 +44,6 @@
                                                           :label="'Type...'"/>
                             </v-col>
                         </v-row>
-
                         <v-simple-table>
                             <template v-slot:default v-if="articles">
                                 <thead >
@@ -120,7 +119,7 @@
                                     </td>
                                     <td>
                                         <v-icon small @click="edit(article.slug)">mdi-pencil</v-icon>
-                                        <v-icon small @click="destroy(article.id)">mdi-delete</v-icon>
+                                        <v-icon small @click="destroy(article.slug)">mdi-delete</v-icon>
                                     </td>
                                 </tr>
                                 </tbody>
